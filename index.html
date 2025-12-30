@@ -112,8 +112,8 @@
         }
 
         @keyframes charPop {
-            0% { opacity: 0; transform: translateY(10px) scale(0.8); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         /* Blinking cursor */
@@ -173,13 +173,12 @@
         }
 
         .profile-photo-container.animate {
-            animation: photoPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: photoReveal 0.8s ease-out forwards;
         }
 
-        @keyframes photoPop {
-            0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
-            60% { transform: scale(1.05) rotate(2deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        @keyframes photoReveal {
+            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .profile-photo-container:hover {
@@ -199,11 +198,15 @@
             font-weight: 500;
             color: var(--text);
             margin-bottom: 1.75rem;
-            opacity: 0;
-            transform: translateY(15px);
         }
 
-        .slogan.animate {
+        .slogan .slogan-part {
+            display: block;
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .slogan .slogan-part.animate {
             animation: fadeUp 0.6s ease-out forwards;
         }
 
@@ -221,16 +224,16 @@
 
         .social-links.animate .social-link {
             opacity: 0;
-            animation: socialPop 0.4s ease-out forwards;
+            animation: socialFade 0.5s ease-out forwards;
         }
 
         .social-links.animate .social-link:nth-child(1) { animation-delay: 0s; }
         .social-links.animate .social-link:nth-child(2) { animation-delay: 0.1s; }
         .social-links.animate .social-link:nth-child(3) { animation-delay: 0.2s; }
 
-        @keyframes socialPop {
-            0% { opacity: 0; transform: scale(0) rotate(-180deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        @keyframes socialFade {
+            0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .social-link {
@@ -362,8 +365,8 @@
         .obsessions-section.animate .pill:nth-child(6) { animation-delay: 0.35s; }
 
         @keyframes pillPop {
-            0% { opacity: 0; transform: translateY(10px) scale(0.9); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .pills-container {
@@ -582,7 +585,10 @@
                     <span class="highlight last-name"></span>
                 </h1>
 
-                <p class="slogan">Solving real problems for real people.</p>
+                <p class="slogan">
+                    <span class="slogan-part">Solving real problems</span>
+                    <span class="slogan-part">for real people.</span>
+                </p>
 
                 <div class="profile-photo-container">
                     <img src="images/phillip-aubrey.jpg" alt="Phillip Aubrey" class="profile-photo" loading="eager">
@@ -720,7 +726,7 @@
 
             // Show remaining content with staggered animations
             function showRestOfContent() {
-                const slogan = document.querySelector('.slogan');
+                const sloganParts = document.querySelectorAll('.slogan-part');
                 const photo = document.querySelector('.profile-photo-container');
                 const socials = document.querySelector('.social-links');
                 const focus = document.querySelector('.focus-section');
@@ -728,14 +734,15 @@
                 const cta = document.querySelector('.cta-section');
                 const footer = document.querySelector('.footer-text');
 
-                // Staggered reveal
-                setTimeout(() => photo.classList.add('animate'), 0);
-                setTimeout(() => slogan.classList.add('animate'), 200);
-                setTimeout(() => socials.classList.add('animate'), 400);
-                setTimeout(() => focus.classList.add('animate'), 300);
-                setTimeout(() => obsessions.classList.add('animate'), 500);
-                setTimeout(() => cta.classList.add('animate'), 700);
-                setTimeout(() => footer.classList.add('animate'), 900);
+                // Staggered reveal - elegant timing
+                setTimeout(() => sloganParts[0].classList.add('animate'), 0);
+                setTimeout(() => sloganParts[1].classList.add('animate'), 250);
+                setTimeout(() => photo.classList.add('animate'), 500);
+                setTimeout(() => socials.classList.add('animate'), 800);
+                setTimeout(() => focus.classList.add('animate'), 600);
+                setTimeout(() => obsessions.classList.add('animate'), 850);
+                setTimeout(() => cta.classList.add('animate'), 1100);
+                setTimeout(() => footer.classList.add('animate'), 1300);
             }
 
             // Start animation after short delay
