@@ -352,32 +352,56 @@
             animation: slideIn 0.7s ease-out forwards;
         }
 
-        .obsessions-section.animate .pill {
-            opacity: 0;
-            animation: pillPop 0.4s ease-out forwards;
-        }
-
-        .obsessions-section.animate .pill:nth-child(1) { animation-delay: 0.1s; }
-        .obsessions-section.animate .pill:nth-child(2) { animation-delay: 0.15s; }
-        .obsessions-section.animate .pill:nth-child(3) { animation-delay: 0.2s; }
-        .obsessions-section.animate .pill:nth-child(4) { animation-delay: 0.25s; }
-        .obsessions-section.animate .pill:nth-child(5) { animation-delay: 0.3s; }
-        .obsessions-section.animate .pill:nth-child(6) { animation-delay: 0.35s; }
-
-        @keyframes pillPop {
-            0% { opacity: 0; transform: translateY(8px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .pills-container {
+        /* Marquee Container */
+        .marquee-container {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 0.625rem;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .obsessions-section.animate .marquee-container {
+            opacity: 1;
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        .marquee-row {
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 0.625rem;
+            width: max-content;
+            animation: marqueeScroll 25s linear infinite;
+        }
+
+        .marquee-row.reverse .marquee-track {
+            animation: marqueeScrollReverse 25s linear infinite;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes marqueeScrollReverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Pause on hover */
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
         }
 
         .pill {
             display: inline-flex;
             align-items: center;
+            flex-shrink: 0;
             gap: 0.5rem;
             padding: 0.625rem 1rem;
             background: white;
@@ -536,7 +560,7 @@
             .right-panel { width: 100%; min-height: auto; padding: 2.5rem 1.5rem 3rem; }
             .right-content { max-width: 100%; gap: 2rem; }
             .focus-text { font-size: 1.1rem; }
-            .pills-container { gap: 0.5rem; }
+            .marquee-container { gap: 0.5rem; }
             .pill { padding: 0.5rem 0.875rem; font-size: 0.85rem; }
             .cta-card { padding: 1.5rem; border-radius: 16px; }
             .cta-title { font-size: 1.25rem; }
@@ -633,13 +657,33 @@
                 <!-- Obsessions -->
                 <section class="obsessions-section">
                     <p class="section-label">What I'm Obsessed With</p>
-                    <div class="pills-container">
-                        <span class="pill"><span class="emoji">📈</span> Investing</span>
-                        <span class="pill"><span class="emoji">🛠</span> Product Development</span>
-                        <span class="pill"><span class="emoji">🧭</span> Men's Mentorship</span>
-                        <span class="pill"><span class="emoji">🏃</span> Running Marathons</span>
-                        <span class="pill"><span class="emoji">🌱</span> Personal Growth</span>
-                        <span class="pill"><span class="emoji">🐕</span> My Dog</span>
+                    <div class="marquee-container">
+                        <div class="marquee-row">
+                            <div class="marquee-track">
+                                <span class="pill"><span class="emoji">📈</span> Investing</span>
+                                <span class="pill"><span class="emoji">🛠</span> Product Development</span>
+                                <span class="pill"><span class="emoji">🧭</span> Men's Mentorship</span>
+                                <span class="pill"><span class="emoji">🏃</span> Running Marathons</span>
+                                <!-- Duplicate for seamless loop -->
+                                <span class="pill"><span class="emoji">📈</span> Investing</span>
+                                <span class="pill"><span class="emoji">🛠</span> Product Development</span>
+                                <span class="pill"><span class="emoji">🧭</span> Men's Mentorship</span>
+                                <span class="pill"><span class="emoji">🏃</span> Running Marathons</span>
+                            </div>
+                        </div>
+                        <div class="marquee-row reverse">
+                            <div class="marquee-track">
+                                <span class="pill"><span class="emoji">🌱</span> Personal Growth</span>
+                                <span class="pill"><span class="emoji">🐕</span> My Dog</span>
+                                <span class="pill"><span class="emoji">🤖</span> Artificial Intelligence</span>
+                                <span class="pill"><span class="emoji">🧠</span> Human Psychology</span>
+                                <!-- Duplicate for seamless loop -->
+                                <span class="pill"><span class="emoji">🌱</span> Personal Growth</span>
+                                <span class="pill"><span class="emoji">🐕</span> My Dog</span>
+                                <span class="pill"><span class="emoji">🤖</span> Artificial Intelligence</span>
+                                <span class="pill"><span class="emoji">🧠</span> Human Psychology</span>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
