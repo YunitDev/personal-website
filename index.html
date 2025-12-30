@@ -92,14 +92,50 @@
             letter-spacing: -0.02em;
             line-height: 1;
             margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeUp 0.8s ease-out 0.2s forwards;
         }
 
         .name .highlight {
             color: var(--orange);
             font-style: italic;
             display: block;
+        }
+
+        /* Typewriter Animation */
+        .name .char {
+            opacity: 0;
+            display: inline-block;
+        }
+
+        .name .char.visible {
+            opacity: 1;
+            animation: charPop 0.1s ease-out forwards;
+        }
+
+        @keyframes charPop {
+            0% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Blinking cursor */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 0.9em;
+            background: var(--orange);
+            margin-left: 4px;
+            animation: blink 0.6s ease-in-out infinite;
+            vertical-align: baseline;
+            position: relative;
+            top: 0.1em;
+        }
+
+        .cursor.hidden {
+            opacity: 0;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* Orange dot replacing black dot on i */
@@ -127,13 +163,23 @@
             height: 158px;
             margin-bottom: 2rem;
             opacity: 0;
-            animation: fadeUp 0.8s ease-out 0.35s forwards;
+            transform: scale(0.8);
             border-radius: 16px;
             border: 3px solid var(--orange);
             box-shadow: 0 12px 32px rgba(255, 107, 53, 0.18);
             overflow: hidden;
             background: var(--cream);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-photo-container.animate {
+            animation: photoPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes photoPop {
+            0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+            60% { transform: scale(1.05) rotate(2deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
         }
 
         .profile-photo-container:hover {
@@ -154,7 +200,11 @@
             color: var(--text);
             margin-bottom: 1.75rem;
             opacity: 0;
-            animation: fadeUp 0.8s ease-out 0.45s forwards;
+            transform: translateY(15px);
+        }
+
+        .slogan.animate {
+            animation: fadeUp 0.6s ease-out forwards;
         }
 
         /* Social Icons */
@@ -162,7 +212,25 @@
             display: flex;
             gap: 0.75rem;
             opacity: 0;
-            animation: fadeUp 0.8s ease-out 0.55s forwards;
+            transform: translateY(15px);
+        }
+
+        .social-links.animate {
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        .social-links.animate .social-link {
+            opacity: 0;
+            animation: socialPop 0.4s ease-out forwards;
+        }
+
+        .social-links.animate .social-link:nth-child(1) { animation-delay: 0s; }
+        .social-links.animate .social-link:nth-child(2) { animation-delay: 0.1s; }
+        .social-links.animate .social-link:nth-child(3) { animation-delay: 0.2s; }
+
+        @keyframes socialPop {
+            0% { opacity: 0; transform: scale(0) rotate(-180deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
         }
 
         .social-link {
@@ -211,7 +279,11 @@
         /* Section Styles */
         .focus-section {
             opacity: 0;
-            animation: slideIn 0.8s ease-out 0.3s forwards;
+            transform: translateX(40px);
+        }
+
+        .focus-section.animate {
+            animation: slideIn 0.7s ease-out forwards;
         }
 
         .section-label {
@@ -270,7 +342,28 @@
         /* Obsessions Section */
         .obsessions-section {
             opacity: 0;
-            animation: slideIn 0.8s ease-out 0.5s forwards;
+            transform: translateX(40px);
+        }
+
+        .obsessions-section.animate {
+            animation: slideIn 0.7s ease-out forwards;
+        }
+
+        .obsessions-section.animate .pill {
+            opacity: 0;
+            animation: pillPop 0.4s ease-out forwards;
+        }
+
+        .obsessions-section.animate .pill:nth-child(1) { animation-delay: 0.1s; }
+        .obsessions-section.animate .pill:nth-child(2) { animation-delay: 0.15s; }
+        .obsessions-section.animate .pill:nth-child(3) { animation-delay: 0.2s; }
+        .obsessions-section.animate .pill:nth-child(4) { animation-delay: 0.25s; }
+        .obsessions-section.animate .pill:nth-child(5) { animation-delay: 0.3s; }
+        .obsessions-section.animate .pill:nth-child(6) { animation-delay: 0.35s; }
+
+        @keyframes pillPop {
+            0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .pills-container {
@@ -307,7 +400,11 @@
         /* CTA Section */
         .cta-section {
             opacity: 0;
-            animation: slideIn 0.8s ease-out 0.7s forwards;
+            transform: translateX(40px);
+        }
+
+        .cta-section.animate {
+            animation: slideIn 0.7s ease-out forwards;
         }
 
         .cta-card {
@@ -387,8 +484,12 @@
             font-size: 0.75rem;
             color: var(--text-soft);
             opacity: 0;
-            animation: slideIn 0.8s ease-out 0.9s forwards;
+            transform: translateY(10px);
             margin-top: 1rem;
+        }
+
+        .footer-text.animate {
+            animation: fadeUp 0.6s ease-out forwards;
         }
 
         .footer-text .orange {
@@ -436,7 +537,7 @@
             .pill { padding: 0.5rem 0.875rem; font-size: 0.85rem; }
             .cta-card { padding: 1.5rem; border-radius: 16px; }
             .cta-title { font-size: 1.25rem; }
-            .focus-section, .obsessions-section, .cta-section, .footer-text { animation-name: fadeUp; }
+            .focus-section.animate, .obsessions-section.animate, .cta-section.animate, .footer-text.animate { animation-name: fadeUp; }
         }
 
         /* Small mobile */
@@ -476,9 +577,9 @@
         <!-- Left Panel -->
         <aside class="left-panel">
             <div class="left-content">
-                <h1 class="name">
-                    Ph<span class="i-orange">ı</span>ll<span class="i-orange">ı</span>p
-                    <span class="highlight">Aubrey</span>
+                <h1 class="name" id="name">
+                    <span class="first-name"></span><span class="cursor"></span>
+                    <span class="highlight last-name"></span>
                 </h1>
 
                 <p class="slogan">Solving real problems for real people.</p>
@@ -557,6 +658,90 @@
             </div>
         </main>
     </div>
+
+    <!-- Opening Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstName = 'Phıllıp';  // Using dotless i
+            const lastName = 'Aubrey';
+            const firstNameEl = document.querySelector('.first-name');
+            const lastNameEl = document.querySelector('.last-name');
+            const cursor = document.querySelector('.cursor');
+
+            let charIndex = 0;
+            const typeSpeed = 80;
+            const delayBetweenNames = 200;
+
+            // Create character span with special handling for dotless i
+            function createCharSpan(char, isOrangeI) {
+                if (isOrangeI) {
+                    const span = document.createElement('span');
+                    span.className = 'char i-orange';
+                    span.textContent = char;
+                    return span;
+                }
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = char;
+                return span;
+            }
+
+            // Type first name
+            function typeFirstName() {
+                if (charIndex < firstName.length) {
+                    const char = firstName[charIndex];
+                    const isOrangeI = (char === 'ı');
+                    const span = createCharSpan(char, isOrangeI);
+                    firstNameEl.appendChild(span);
+
+                    setTimeout(() => span.classList.add('visible'), 10);
+                    charIndex++;
+                    setTimeout(typeFirstName, typeSpeed);
+                } else {
+                    charIndex = 0;
+                    setTimeout(typeLastName, delayBetweenNames);
+                }
+            }
+
+            // Type last name
+            function typeLastName() {
+                cursor.style.display = 'none';
+                if (charIndex < lastName.length) {
+                    const span = createCharSpan(lastName[charIndex], false);
+                    lastNameEl.appendChild(span);
+
+                    setTimeout(() => span.classList.add('visible'), 10);
+                    charIndex++;
+                    setTimeout(typeLastName, typeSpeed);
+                } else {
+                    setTimeout(showRestOfContent, 300);
+                }
+            }
+
+            // Show remaining content with staggered animations
+            function showRestOfContent() {
+                const slogan = document.querySelector('.slogan');
+                const photo = document.querySelector('.profile-photo-container');
+                const socials = document.querySelector('.social-links');
+                const focus = document.querySelector('.focus-section');
+                const obsessions = document.querySelector('.obsessions-section');
+                const cta = document.querySelector('.cta-section');
+                const footer = document.querySelector('.footer-text');
+
+                // Staggered reveal
+                setTimeout(() => photo.classList.add('animate'), 0);
+                setTimeout(() => slogan.classList.add('animate'), 200);
+                setTimeout(() => socials.classList.add('animate'), 400);
+                setTimeout(() => focus.classList.add('animate'), 300);
+                setTimeout(() => obsessions.classList.add('animate'), 500);
+                setTimeout(() => cta.classList.add('animate'), 700);
+                setTimeout(() => footer.classList.add('animate'), 900);
+            }
+
+            // Start animation after short delay
+            setTimeout(typeFirstName, 400);
+        });
+    </script>
 
     <!-- Cal.com Embed -->
     <script type="text/javascript">
