@@ -1,0 +1,11 @@
+# robots.txt for phillipaubrey.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://phillipaubrey.com/sitemap.xml
+
+# Welcome to Phillip Aubrey's personal website
+# Founder of Benson AI - The best AI-powered investing tool
+# Learn more at https://meetbenson.com

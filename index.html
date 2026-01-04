@@ -608,12 +608,6 @@
 
           <!-- Schedule a Call -->
           <button data-cal-link="phillip-aubrey-qz73vu/30min" data-cal-config='{"layout":"month_view"}' class="card small col-span-4 row-span-1 entrance-left" style="background: linear-gradient(135deg, #1A1614 0%, #2d2520 100%); animation-delay: 750ms; cursor: pointer; border: none; text-align: left;" id="calCard">
-            <div class="card-decoration" style="top: 50%; right: 16px; transform: translateY(-50%); opacity: 0.3;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </div>
             <div class="card-content" style="justify-content: center;">
               <h3 class="card-title sm text-white">Let's Chat</h3>
               <p class="card-subtitle xs text-white-60">Book a 30-min call</p>
@@ -625,116 +619,6 @@
             <div class="card-content" style="justify-content: center;">
               <h3 class="card-title sm" id="emailTitle">Email</h3>
               <p class="card-subtitle xs" id="emailSubtitle">Get in touch</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tools Section -->
-    <section class="section entrance-up" style="animation-delay: 750ms">
-      <div class="section-header">
-        <h2 class="section-title" id="toolsTitle">Tools</h2>
-        <div class="section-dots">
-          <div class="section-dot animate-pulse" style="background-color: var(--color-blue);"></div>
-          <div class="section-dot animate-pulse" style="background-color: var(--color-purple); animation-delay: 0.5s;"></div>
-        </div>
-      </div>
-
-      <div class="bento-container" id="toolsContainer">
-        <div class="bento-grid tools-grid">
-          <!-- Investment Calculator -->
-          <a href="#" class="card small col-span-3 row-span-1 entrance-left" style="animation-delay: 800ms" id="calcCard">
-            <div class="card-decoration" style="bottom: -4px; right: -4px; opacity: 0.1;">
-              <svg width="55" height="55" viewBox="0 0 100 100">
-                <defs>
-                  <linearGradient id="spiralGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#E85D5D" />
-                    <stop offset="100%" stop-color="#4A90D9" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M 50 50 Q 58 42 62 52 Q 70 68 48 74 Q 22 80 20 50 Q 18 18 55 15 Q 92 12 95 55"
-                  stroke="url(#spiralGradient2)" stroke-width="5" fill="none" stroke-linecap="round"
-                  stroke-dasharray="180"
-                >
-                  <animate attributeName="stroke-dashoffset" from="180" to="0" dur="2s" repeatCount="indefinite" />
-                </path>
-                <circle cx="50" cy="50" r="5" fill="#E85D5D">
-                  <animate attributeName="r" values="5;6;5" dur="2s" repeatCount="indefinite" />
-                </circle>
-              </svg>
-            </div>
-            <div class="card-content">
-              <h3 class="card-title sm" id="calcTitle">Investment Calculator</h3>
-              <p class="card-subtitle xs" id="calcSubtitle">Plan your growth</p>
-            </div>
-          </a>
-
-          <!-- Risk Assessment -->
-          <a href="#" class="card small col-span-3 row-span-1 entrance-right" style="animation-delay: 850ms" id="riskCard">
-            <div class="card-decoration" style="bottom: 4px; right: 4px; opacity: 0.1;">
-              <!-- Eye Mark -->
-              <svg width="28" height="17" viewBox="0 0 100 60">
-                <ellipse cx="50" cy="30" rx="40" ry="26" fill="none" stroke="#4A90D9" stroke-width="4">
-                  <animate attributeName="ry" values="26;24;26;26;8;26" dur="4s" repeatCount="indefinite" keyTimes="0;0.2;0.4;0.85;0.9;1"/>
-                </ellipse>
-                <circle cx="50" cy="30" r="14" fill="none" stroke="#E85D5D" stroke-width="4"/>
-                <circle cx="50" cy="30" r="6" fill="#E85D5D">
-                  <animate attributeName="cx" values="50;45;55;50;50;50" dur="4s" repeatCount="indefinite" keyTimes="0;0.25;0.5;0.75;0.9;1"/>
-                </circle>
-                <circle cx="44" cy="24" r="2.5" fill="white" opacity="0.85">
-                  <animate attributeName="cx" values="44;40;50;44;44;44" dur="4s" repeatCount="indefinite" keyTimes="0;0.25;0.5;0.75;0.9;1"/>
-                </circle>
-              </svg>
-            </div>
-            <div class="card-content" style="flex-direction: row; align-items: center; justify-content: space-between;">
-              <div>
-                <h3 class="card-title sm" id="riskTitle">Risk Assessment</h3>
-                <p class="card-subtitle xs" id="riskSubtitle">Know yourself</p>
-              </div>
-              <span class="badge" id="riskBadge">Soon</span>
-            </div>
-          </a>
-
-          <!-- Stock Screener -->
-          <a href="#" class="card small col-span-4 row-span-1 entrance-left" style="animation-delay: 900ms" id="screenerCard">
-            <div class="card-decoration" style="bottom: -4px; right: -4px; opacity: 0.1;">
-              <!-- Three Tentacles Small -->
-              <svg width="60" height="50" viewBox="0 0 60 50">
-                <path d="M 10 0 Q 5 15 15 30 Q 20 40 10 50" stroke="#4A90D9" stroke-width="3" fill="none" stroke-linecap="round">
-                  <animate attributeName="d" values="M 10 0 Q 5 15 15 30 Q 20 40 10 50;M 10 0 Q 15 15 10 30 Q 5 40 15 50;M 10 0 Q 5 15 15 30 Q 20 40 10 50" dur="2.5s" repeatCount="indefinite"/>
-                </path>
-                <path d="M 30 0 Q 25 15 35 30 Q 40 40 30 50" stroke="#E85D5D" stroke-width="3" fill="none" stroke-linecap="round">
-                  <animate attributeName="d" values="M 30 0 Q 25 15 35 30 Q 40 40 30 50;M 30 0 Q 35 15 30 30 Q 25 40 35 50;M 30 0 Q 25 15 35 30 Q 40 40 30 50" dur="2.5s" repeatCount="indefinite" begin="0.2s"/>
-                </path>
-                <path d="M 50 0 Q 45 15 55 30 Q 60 40 50 50" stroke="#4A90D9" stroke-width="3" fill="none" stroke-linecap="round">
-                  <animate attributeName="d" values="M 50 0 Q 45 15 55 30 Q 60 40 50 50;M 50 0 Q 55 15 50 30 Q 45 40 55 50;M 50 0 Q 45 15 55 30 Q 60 40 50 50" dur="2.5s" repeatCount="indefinite" begin="0.4s"/>
-                </path>
-              </svg>
-            </div>
-            <div class="card-content" style="flex-direction: row; align-items: center; justify-content: space-between;">
-              <div>
-                <h3 class="card-title sm" id="screenerTitle">Stock Screener</h3>
-                <p class="card-subtitle xs" id="screenerSubtitle">Find opportunities</p>
-              </div>
-              <span class="badge" id="screenerBadge">Soon</span>
-            </div>
-          </a>
-
-          <!-- Portfolio Tracker -->
-          <a href="#" class="card small col-span-2 row-span-1 entrance-right" style="background-color: #E85D5D; animation-delay: 950ms">
-            <div class="card-decoration" style="bottom: -2px; right: -2px; opacity: 0.2;">
-              <!-- Tentacle Curl White -->
-              <svg width="45" height="45" viewBox="0 0 50 50">
-                <path d="M 40 5 Q 45 20 35 30 Q 25 40 15 35 Q 5 30 10 20" stroke="white" stroke-width="4" fill="none" stroke-linecap="round">
-                  <animate attributeName="d" values="M 40 5 Q 45 20 35 30 Q 25 40 15 35 Q 5 30 10 20;M 40 5 Q 48 22 38 32 Q 28 42 18 37 Q 8 32 12 22;M 40 5 Q 45 20 35 30 Q 25 40 15 35 Q 5 30 10 20" dur="4s" repeatCount="indefinite"/>
-                </path>
-              </svg>
-            </div>
-            <div class="card-content">
-              <h3 class="card-title sm text-white">Portfolio</h3>
-              <p class="card-subtitle xs text-white-60">Track</p>
             </div>
           </a>
         </div>
@@ -845,16 +729,13 @@
 
       // Section titles
       document.getElementById('contentTitle').style.color = theme.textMuted;
-      document.getElementById('toolsTitle').style.color = theme.textMuted;
 
       // Bento containers
       document.getElementById('contentContainer').style.backgroundColor = theme.surface;
       document.getElementById('contentContainer').style.borderColor = theme.borderSubtle;
-      document.getElementById('toolsContainer').style.backgroundColor = theme.surface;
-      document.getElementById('toolsContainer').style.borderColor = theme.borderSubtle;
 
       // Standard cards
-      const standardCards = ['tiktokCard', 'xCard', 'linkedinCard', 'calcCard', 'riskCard', 'screenerCard', 'emailCard'];
+      const standardCards = ['tiktokCard', 'xCard', 'linkedinCard', 'emailCard'];
       standardCards.forEach(id => {
         const card = document.getElementById(id);
         if (card) {
@@ -864,24 +745,19 @@
       });
 
       // Card text
-      ['tiktokTitle', 'xTitle', 'linkedinTitle', 'calcTitle', 'riskTitle', 'screenerTitle', 'emailTitle'].forEach(id => {
+      ['tiktokTitle', 'xTitle', 'linkedinTitle', 'emailTitle'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.color = theme.text;
       });
 
-      ['tiktokSubtitle', 'xSubtitle', 'linkedinSubtitle', 'calcSubtitle', 'riskSubtitle', 'screenerSubtitle'].forEach(id => {
+      ['tiktokSubtitle', 'xSubtitle', 'linkedinSubtitle'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.color = theme.textMuted;
       });
 
-      // Badges
-      ['riskBadge', 'screenerBadge'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.style.backgroundColor = theme.badgeBg;
-          el.style.color = '#4A90D9';
-        }
-      });
+      // Email subtitle - always visible
+      const emailSubtitle = document.getElementById('emailSubtitle');
+      if (emailSubtitle) emailSubtitle.style.color = theme.textMuted;
 
       // Footer
       document.getElementById('footerText').style.color = theme.textFaint;
