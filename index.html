@@ -420,8 +420,8 @@
 
     <!-- Bio -->
     <div class="bio">
-      <p class="entrance-up" style="animation-delay: 250ms" id="bio1">Teaching everyday people how to build wealth through</p>
-      <p class="entrance-up" style="animation-delay: 300ms" id="bio2">smart, accessible investing strategies.</p>
+      <p class="entrance-up" style="animation-delay: 250ms" id="bio1">Solving real problems</p>
+      <p class="entrance-up" style="animation-delay: 300ms" id="bio2">for real people.</p>
     </div>
 
     <!-- Content Section -->
@@ -437,7 +437,7 @@
       <div class="bento-container" id="contentContainer">
         <div class="bento-grid content-grid">
           <!-- Benson AI Card (Hero) -->
-          <a href="https://meetbenson.com" class="card hero col-span-6 row-span-2 entrance-scale" style="background-color: #E85D5D; animation-delay: 450ms">
+          <a href="https://apps.apple.com/us/app/benson-ai-stock-trading/id6470971278" class="card hero col-span-6 row-span-2 entrance-scale" style="background-color: #E85D5D; animation-delay: 450ms">
             <div class="card-decoration benson-octopus" style="bottom: -24px; right: 8px; opacity: 0.2;">
               <!-- Benson Octopus (White) -->
               <svg width="130" height="156" viewBox="0 0 100 120">
@@ -498,12 +498,9 @@
                 </path>
               </svg>
             </div>
-            <div class="card-content between">
-              <div>
-                <h3 class="card-title base" id="tiktokTitle">TikTok</h3>
-                <p class="card-subtitle" id="tiktokSubtitle">Daily market takes</p>
-              </div>
-              <span class="card-handle">@PhillipJLAubrey</span>
+            <div class="card-content">
+              <h3 class="card-title base" id="tiktokTitle">TikTok</h3>
+              <p class="card-subtitle" id="tiktokSubtitle">Daily market takes</p>
             </div>
           </a>
 
@@ -606,6 +603,28 @@
             <div class="card-content">
               <h3 class="card-title sm text-white">Instagram</h3>
               <p class="card-subtitle xs text-white-60">Life</p>
+            </div>
+          </a>
+
+          <!-- Schedule a Call -->
+          <button data-cal-link="phillip-aubrey-qz73vu/30min" data-cal-config='{"layout":"month_view"}' class="card small col-span-4 row-span-1 entrance-left" style="background: linear-gradient(135deg, #1A1614 0%, #2d2520 100%); animation-delay: 750ms; cursor: pointer; border: none; text-align: left;" id="calCard">
+            <div class="card-decoration" style="top: 50%; right: 16px; transform: translateY(-50%); opacity: 0.3;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+            <div class="card-content" style="justify-content: center;">
+              <h3 class="card-title sm text-white">Let's Chat</h3>
+              <p class="card-subtitle xs text-white-60">Book a 30-min call</p>
+            </div>
+          </button>
+
+          <!-- Email -->
+          <a href="mailto:me@phillaubrey.com" class="card small col-span-2 row-span-1 entrance-right" style="animation-delay: 800ms" id="emailCard">
+            <div class="card-content" style="justify-content: center;">
+              <h3 class="card-title sm" id="emailTitle">Email</h3>
+              <p class="card-subtitle xs" id="emailSubtitle">Get in touch</p>
             </div>
           </a>
         </div>
@@ -722,42 +741,6 @@
       </div>
     </section>
 
-    <!-- Connect Section -->
-    <section class="section entrance-up" style="animation-delay: 1000ms">
-      <div class="section-header">
-        <h2 class="section-title" id="connectTitle">Connect</h2>
-        <div class="section-dots">
-          <div class="section-dot animate-pulse" style="background-color: var(--color-green);"></div>
-        </div>
-      </div>
-
-      <div class="bento-container" id="connectContainer">
-        <div class="bento-grid" style="grid-auto-rows: 80px;">
-          <!-- Schedule a Call -->
-          <button data-cal-link="phillip-aubrey-qz73vu/30min" data-cal-config='{"layout":"month_view"}' class="card col-span-4 row-span-1 entrance-left" style="background: linear-gradient(135deg, #1A1614 0%, #2d2520 100%); animation-delay: 1050ms; cursor: pointer; border: none; text-align: left;" id="calCard">
-            <div class="card-decoration" style="top: 50%; right: 16px; transform: translateY(-50%); opacity: 0.3;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </div>
-            <div class="card-content" style="justify-content: center;">
-              <h3 class="card-title base text-white">Let's Chat</h3>
-              <p class="card-subtitle xs text-white-60">Book a 30-min call</p>
-            </div>
-          </button>
-
-          <!-- Email -->
-          <a href="mailto:me@phillaubrey.com" class="card col-span-2 row-span-1 entrance-right" style="animation-delay: 1100ms" id="emailCard">
-            <div class="card-content" style="justify-content: center;">
-              <h3 class="card-title sm" id="emailTitle">Email</h3>
-              <p class="card-subtitle xs" id="emailSubtitle" style="color: var(--color-red);">me@phillaubrey.com</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
     <!-- Footer -->
     <footer class="footer entrance-fade" style="animation-delay: 1150ms">
       <div class="footer-marks">
@@ -863,15 +846,12 @@
       // Section titles
       document.getElementById('contentTitle').style.color = theme.textMuted;
       document.getElementById('toolsTitle').style.color = theme.textMuted;
-      document.getElementById('connectTitle').style.color = theme.textMuted;
 
       // Bento containers
       document.getElementById('contentContainer').style.backgroundColor = theme.surface;
       document.getElementById('contentContainer').style.borderColor = theme.borderSubtle;
       document.getElementById('toolsContainer').style.backgroundColor = theme.surface;
       document.getElementById('toolsContainer').style.borderColor = theme.borderSubtle;
-      document.getElementById('connectContainer').style.backgroundColor = theme.surface;
-      document.getElementById('connectContainer').style.borderColor = theme.borderSubtle;
 
       // Standard cards
       const standardCards = ['tiktokCard', 'xCard', 'linkedinCard', 'calcCard', 'riskCard', 'screenerCard', 'emailCard'];
