@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Event — The Aubreys</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+
+    <meta property="og:title" content="A private invitation">
+    <meta property="og:description" content="You're invited.">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #FDFAF6;
+            --card: #FFFFFF;
+            --ink: #1A1614;
+            --ink-soft: #6B5E57;
+            --ink-softer: #9A8F88;
+            --accent: #8A6B3D;
+            --accent-soft: #EFE5D4;
+            --line: #EBE4DB;
+            --ok: #2F7A4E;
+            --danger: #B44A3A;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.55;
+            min-height: 100svh;
+            padding: 2rem 1.25rem 3rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 1.5rem 0 2rem;
+        }
+
+        .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 8vw, 3.75rem);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .subtitle {
+            margin-top: 0.75rem;
+            color: var(--ink-soft);
+            font-size: 1.05rem;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card + .card { margin-top: 0; }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.85rem 1rem;
+            align-items: baseline;
+        }
+
+        .details-grid dt {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-softer);
+        }
+
+        .details-grid dd { color: var(--ink); }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .price-row .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-softer);
+        }
+
+        .price-row .amount {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.75rem;
+            color: var(--ink);
+        }
+
+        .price-row .amount small {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            font-weight: 400;
+        }
+
+        .deadline {
+            text-align: center;
+            padding: 0.75rem 1rem;
+            background: var(--accent-soft);
+            color: var(--ink);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .deadline strong { color: var(--accent); }
+
+        /* Form */
+        form { display: block; }
+
+        .field { margin-bottom: 1.1rem; }
+        .field:last-child { margin-bottom: 0; }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--ink);
+            margin-bottom: 0.4rem;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #FAF7F3;
+            color: var(--ink);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: #FFFFFF;
+        }
+
+        .rsvp-choice {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .rsvp-choice input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .rsvp-choice label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border: 1.5px solid var(--line);
+            border-radius: 14px;
+            background: #FFFFFF;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--ink);
+            transition: all 0.2s;
+            margin-bottom: 0;
+        }
+
+        .rsvp-choice input[type="radio"]:checked + label.yes {
+            background: var(--ok);
+            color: #FFFFFF;
+            border-color: var(--ok);
+        }
+
+        .rsvp-choice input[type="radio"]:checked + label.no {
+            background: var(--ink);
+            color: #FFFFFF;
+            border-color: var(--ink);
+        }
+
+        .rsvp-choice input[type="radio"]:focus-visible + label {
+            box-shadow: 0 0 0 3px rgba(138, 107, 61, 0.3);
+        }
+
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .guest-rows {
+            display: none;
+            margin-top: 1.1rem;
+        }
+
+        .guest-rows.active { display: block; }
+
+        .guest-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            align-items: stretch;
+        }
+
+        .guest-row .remove-btn {
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            width: 40px;
+            color: var(--ink-softer);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .guest-row .remove-btn:hover {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .guest-row:first-child .remove-btn { visibility: hidden; }
+
+        .add-guest {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: transparent;
+            border: 1px dashed var(--line);
+            color: var(--ink-soft);
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.15s;
+        }
+
+        .add-guest:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--ink);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 14px;
+            padding: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover:not(:disabled) { background: var(--accent); }
+        .submit-btn:active:not(:disabled) { transform: scale(0.99); }
+        .submit-btn:disabled { opacity: 0.5; cursor: wait; }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            text-align: center;
+            display: none;
+        }
+
+        .error-msg.visible { display: block; }
+
+        /* Success screens */
+        .success {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .success.active { display: block; }
+
+        .success h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.25rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        .success h2 em { font-style: italic; color: var(--accent); }
+
+        .success .lead {
+            color: var(--ink-soft);
+            margin-bottom: 1.5rem;
+        }
+
+        .total-card {
+            background: var(--accent-soft);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.25rem;
+            text-align: center;
+        }
+
+        .total-card .total-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .total-card .total-amount {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.75rem;
+            color: var(--ink);
+            line-height: 1;
+        }
+
+        .total-card .total-note {
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            margin-top: 0.35rem;
+        }
+
+        .deadline-banner {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            background: #1A1614;
+            color: #FFFFFF;
+            border-radius: 14px;
+            padding: 0.9rem 1.1rem;
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .deadline-banner .deadline-icon {
+            flex: 0 0 auto;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .deadline-banner .deadline-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+            flex: 1;
+        }
+
+        .deadline-banner .deadline-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #F2B97A;
+        }
+
+        .deadline-banner .deadline-date {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 1.2;
+        }
+
+        .deadline-banner .deadline-note {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .pay-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            background: #6B1BC4;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 14px;
+            padding: 1.1rem;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .pay-btn:hover { background: #581AA1; }
+        .pay-btn:active { transform: scale(0.99); }
+
+        .pay-alt {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            margin-top: 1rem;
+        }
+
+        .pay-alt strong { color: var(--ink); }
+
+        details.qr-details {
+            margin-top: 1rem;
+            border-top: 1px solid var(--line);
+            padding-top: 1rem;
+        }
+
+        details.qr-details summary {
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            text-align: center;
+            list-style: none;
+        }
+
+        details.qr-details summary::-webkit-details-marker { display: none; }
+        details.qr-details summary::before { content: '▸ '; }
+        details.qr-details[open] summary::before { content: '▾ '; }
+
+        details.qr-details img {
+            width: 100%;
+            max-width: 260px;
+            display: block;
+            margin: 1rem auto 0;
+            border-radius: 12px;
+            background: #FFFFFF;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--ink-softer);
+            font-size: 0.8rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .draft-badge {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #B44A3A;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            z-index: 100;
+            display: none;
+        }
+
+        .draft-badge.visible { display: block; }
+        body.has-draft-badge { padding-top: 3.5rem; }
+
+        @media (max-width: 480px) {
+            body { padding: 1.25rem 1rem 2.5rem; }
+            .card { padding: 1.25rem; border-radius: 18px; }
+            .guest-row { grid-template-columns: 1fr 1fr auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="draft-badge" id="draft-badge">● Draft Mode — submissions won't be sent</div>
+
+    <div class="container">
+
+        <!-- Hero -->
+        <header class="hero">
+            <p class="eyebrow">You're Invited</p>
+            <h1>A <em>boat party</em><br>for the wedding</h1>
+            <p class="subtitle">Phillip &amp; Courtnie · May 22, 2026</p>
+        </header>
+
+        <!-- Form wrapper (hidden after submit) -->
+        <div id="form-wrap">
+
+            <!-- Event details -->
+            <div class="card">
+                <dl class="details-grid">
+                    <dt>Date</dt><dd>Friday, May 22, 2026</dd>
+                    <dt>Time</dt><dd>1:00 PM</dd>
+                    <dt>Pickup</dt><dd>Moon Palace<br><span style="color:var(--ink-soft);font-size:0.9rem;">Transportation provided</span></dd>
+                </dl>
+                <div class="price-row">
+                    <span class="label">Per Person</span>
+                    <span class="amount">$150<small> / guest</small></span>
+                </div>
+            </div>
+
+            <div class="deadline">
+                Please RSVP by <strong>May 5, 2026</strong>
+            </div>
+
+            <!-- RSVP form -->
+            <div class="card">
+                <form id="rsvp-form" action="https://formspree.io/f/xrerylay" method="POST" novalidate>
+
+                    <div class="field">
+                        <label>Your name</label>
+                        <div class="name-row">
+                            <input type="text" id="first-name" name="first_name" placeholder="First name" autocomplete="given-name" required>
+                            <input type="text" id="last-name" name="last_name" placeholder="Last name" autocomplete="family-name" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="phone">Phone <span style="color:var(--ink-softer);font-weight:400;">(so we can follow up)</span></label>
+                        <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(555) 555-5555" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Will you join us?</label>
+                        <div class="rsvp-choice">
+                            <div>
+                                <input type="radio" id="rsvp-yes" name="attending" value="Yes" required>
+                                <label for="rsvp-yes" class="yes">Yes, count me in</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="rsvp-no" name="attending" value="No">
+                                <label for="rsvp-no" class="no">Can't make it</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guest-rows" id="guest-rows">
+                        <label>Guests attending</label>
+                        <div id="guest-list"></div>
+                        <button type="button" class="add-guest" id="add-guest">+ Add another guest</button>
+                    </div>
+
+                    <!-- Formspree honeypot -->
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+                    <input type="hidden" name="_subject" value="Boat Party RSVP">
+
+                    <button type="submit" class="submit-btn" id="submit-btn">Send RSVP</button>
+                    <p class="error-msg" id="error-msg">Something went wrong. Please try again or text Phillip directly.</p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Success: YES -->
+        <div class="success" id="success-yes">
+            <div class="card">
+                <h2>Thank you, <em>we can't wait</em></h2>
+                <p class="lead">Last step — please send payment to hold your spot.</p>
+
+                <div class="total-card">
+                    <div class="total-label">Total Due</div>
+                    <div class="total-amount" id="total-amount">$150</div>
+                    <div class="total-note" id="total-note">$150 × 1 guest</div>
+                </div>
+
+                <div class="deadline-banner">
+                    <div class="deadline-icon">⏳</div>
+                    <div class="deadline-body">
+                        <span class="deadline-label">Pay by</span>
+                        <span class="deadline-date">Tuesday, May 5, 2026</span>
+                        <span class="deadline-note">Your spot is only held once payment is received.</span>
+                    </div>
+                </div>
+
+                <a href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
+                   class="pay-btn"
+                   target="_blank"
+                   rel="noopener">
+                    Pay with Zelle →
+                </a>
+
+                <p class="pay-alt">
+                    Or send to Phillip at <strong>(562) 673-8154</strong> in your banking app.
+                </p>
+
+                <details class="qr-details">
+                    <summary>Show QR code instead</summary>
+                    <img src="zelle-qr.jpg" alt="Zelle QR code for Phillip">
+                </details>
+            </div>
+        </div>
+
+        <!-- Success: NO -->
+        <div class="success" id="success-no">
+            <div class="card">
+                <h2>We'll <em>miss you</em></h2>
+                <p class="lead">Thanks for letting us know. We love you and can't wait to celebrate with you soon.</p>
+            </div>
+        </div>
+
+        <p class="footer">A private invitation · Please do not share</p>
+    </div>
+
+    <script>
+        const form = document.getElementById('rsvp-form');
+        const formWrap = document.getElementById('form-wrap');
+        const firstNameInput = document.getElementById('first-name');
+        const lastNameInput = document.getElementById('last-name');
+        const guestRows = document.getElementById('guest-rows');
+        const guestList = document.getElementById('guest-list');
+        const addGuestBtn = document.getElementById('add-guest');
+        const rsvpYes = document.getElementById('rsvp-yes');
+        const rsvpNo = document.getElementById('rsvp-no');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMsg = document.getElementById('error-msg');
+        const successYes = document.getElementById('success-yes');
+        const successNo = document.getElementById('success-no');
+        const totalAmount = document.getElementById('total-amount');
+        const totalNote = document.getElementById('total-note');
+
+        const PRICE = 150;
+        const MAX_GUESTS = 10;
+
+        const DRAFT_MODE =
+            location.hostname === 'localhost' ||
+            location.hostname === '127.0.0.1' ||
+            location.hostname === '' ||
+            location.protocol === 'file:' ||
+            new URLSearchParams(location.search).has('draft');
+
+        if (DRAFT_MODE) {
+            document.getElementById('draft-badge').classList.add('visible');
+            document.body.classList.add('has-draft-badge');
+            console.info('[RSVP] Draft mode active — form submissions will be simulated, not sent to Formspree.');
+        }
+
+        function createGuestRow(index, { autofill = false } = {}) {
+            const row = document.createElement('div');
+            row.className = 'guest-row';
+            row.dataset.autofilled = autofill ? 'true' : 'false';
+            row.innerHTML = `
+                <input type="text" name="guest_${index}_first" placeholder="First name" autocomplete="off" required>
+                <input type="text" name="guest_${index}_last" placeholder="Last name" autocomplete="off" required>
+                <button type="button" class="remove-btn" aria-label="Remove guest">×</button>
+            `;
+            if (autofill) {
+                row.querySelector('input[name$="_first"]').value = firstNameInput.value.trim();
+                row.querySelector('input[name$="_last"]').value = lastNameInput.value.trim();
+            }
+            row.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', () => { row.dataset.autofilled = 'false'; });
+            });
+            row.querySelector('.remove-btn').addEventListener('click', () => {
+                row.remove();
+                updateFirstRowState();
+            });
+            return row;
+        }
+
+        function updateFirstRowState() {
+            const rows = guestList.querySelectorAll('.guest-row');
+            rows.forEach((r, i) => {
+                r.querySelector('.remove-btn').style.visibility = i === 0 ? 'hidden' : 'visible';
+            });
+        }
+
+        function syncFirstGuestFromInvitee() {
+            const firstRow = guestList.querySelector('.guest-row');
+            if (!firstRow) return;
+            if (firstRow.dataset.autofilled !== 'true') return;
+            firstRow.querySelector('input[name$="_first"]').value = firstNameInput.value.trim();
+            firstRow.querySelector('input[name$="_last"]').value = lastNameInput.value.trim();
+        }
+
+        function toggleGuests() {
+            if (rsvpYes.checked) {
+                guestRows.classList.add('active');
+                if (guestList.children.length === 0) {
+                    guestList.appendChild(createGuestRow(1, { autofill: true }));
+                }
+                guestList.querySelectorAll('input').forEach(i => i.required = true);
+            } else {
+                guestRows.classList.remove('active');
+                guestList.querySelectorAll('input').forEach(i => i.required = false);
+            }
+        }
+
+        firstNameInput.addEventListener('input', syncFirstGuestFromInvitee);
+        lastNameInput.addEventListener('input', syncFirstGuestFromInvitee);
+
+        rsvpYes.addEventListener('change', toggleGuests);
+        rsvpNo.addEventListener('change', toggleGuests);
+
+        addGuestBtn.addEventListener('click', () => {
+            const current = guestList.children.length;
+            if (current >= MAX_GUESTS) return;
+            guestList.appendChild(createGuestRow(current + 1, { autofill: false }));
+            updateFirstRowState();
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.classList.remove('visible');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending…';
+
+            const data = new FormData(form);
+
+            try {
+                if (DRAFT_MODE) {
+                    console.info('[RSVP] Draft submission (not sent):', Object.fromEntries(data.entries()));
+                    await new Promise(r => setTimeout(r, 400));
+                } else {
+                    const res = await fetch(form.action, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (!res.ok) throw new Error('Submission failed');
+                }
+
+                formWrap.style.display = 'none';
+
+                if (rsvpYes.checked) {
+                    const guestCount = guestList.querySelectorAll('.guest-row').length;
+                    const total = PRICE * guestCount;
+                    totalAmount.textContent = '$' + total.toLocaleString();
+                    totalNote.textContent = `$${PRICE} × ${guestCount} guest${guestCount === 1 ? '' : 's'}`;
+                    successYes.classList.add('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    successNo.classList.add('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send RSVP';
+                errorMsg.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+</html>
