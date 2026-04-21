@@ -684,7 +684,10 @@
         const PRICE = 150;
         const MAX_GUESTS = 10;
 
-        const DRAFT_MODE =
+        // Flip FORCE_DRAFT to false when ready to accept real RSVP submissions.
+        const FORCE_DRAFT = true;
+
+        const DRAFT_MODE = FORCE_DRAFT ||
             location.hostname === 'localhost' ||
             location.hostname === '127.0.0.1' ||
             location.hostname === '' ||
