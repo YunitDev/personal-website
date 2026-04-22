@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding Excursion — The Aubreys</title>
+    <title>The Pre-Wedding Excursion — The Aubreys</title>
 
     <meta name="robots" content="noindex, nofollow">
     <meta name="referrer" content="no-referrer">
@@ -96,10 +96,10 @@
 
         h1 {
             font-family: 'Instrument Serif', serif;
-            font-size: clamp(2.5rem, 8vw, 3.75rem);
+            font-size: clamp(2.25rem, 8.5vw, 3.75rem);
             font-weight: 400;
             line-height: 1.05;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.02em;
         }
 
         h1 em {
@@ -219,16 +219,32 @@
             margin-top: 0.15rem;
         }
 
-        .deadline {
-            text-align: center;
-            color: var(--ink-soft);
+        /* Prominent deadline callout on the form view */
+        .form-deadline {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            background: #FFF5ED;
+            border: 1px solid #F3D3B4;
+            border-radius: 14px;
+            padding: 0.9rem 1.05rem;
+            margin-bottom: 1rem;
             font-size: 0.92rem;
-            margin: 0.25rem 0 1.75rem;
+            line-height: 1.5;
+            color: var(--ink);
         }
 
-        .deadline strong {
-            color: var(--ink);
+        .form-deadline-icon {
+            flex-shrink: 0;
+            font-size: 1.05rem;
+            margin-top: 0.05rem;
+        }
+
+        .form-deadline strong {
+            display: block;
+            color: var(--cta);
             font-weight: 600;
+            margin-bottom: 0.15rem;
         }
 
         /* Back button */
@@ -685,7 +701,7 @@
             <header class="hero">
                 <p class="eyebrow">You're Invited</p>
                 <div class="private-badge">Private Event · Invitation Only</div>
-                <h1>The Wedding<br><em>Excursion</em></h1>
+                <h1>The Pre-Wedding<br><em>Excursion</em></h1>
                 <p class="subtitle">Phillip &amp; Courtnie</p>
                 <p class="description">A private catamaran excursion for our closest friends — an afternoon on the water before the wedding weekend.</p>
             </header>
@@ -737,10 +753,14 @@
                         <div class="detail-sub">Covers food, drinks, music, and transportation</div>
                     </div>
                 </div>
-            </div>
-
-            <div class="deadline">
-                Please RSVP by <strong>May 5, 2026</strong>
+                <div class="detail-row">
+                    <div class="detail-icon">⏳</div>
+                    <div class="detail-body">
+                        <div class="detail-label">RSVP Deadline</div>
+                        <div class="detail-value">Tuesday, May 5, 2026</div>
+                        <div class="detail-sub">Payment also due by this date to hold your spot</div>
+                    </div>
+                </div>
             </div>
 
             <button type="button" class="submit-btn" id="rsvp-cta">Send RSVP</button>
@@ -751,6 +771,14 @@
         <!-- ============================================ -->
         <section class="view" id="view-form">
             <button type="button" class="back-btn" id="back-to-landing">← Back to details</button>
+
+            <div class="form-deadline">
+                <span class="form-deadline-icon">⏳</span>
+                <div>
+                    <strong>RSVP and payment both due by Tuesday, May 5, 2026.</strong>
+                    Your spot is only held once payment is received.
+                </div>
+            </div>
 
             <div class="card">
                 <h2 class="view-heading">Your <em>RSVP</em></h2>
@@ -793,7 +821,7 @@
 
                     <!-- Formspree honeypot -->
                     <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-                    <input type="hidden" name="_subject" value="Wedding Excursion RSVP">
+                    <input type="hidden" name="_subject" value="Pre-Wedding Excursion RSVP">
                 </form>
             </div>
 
