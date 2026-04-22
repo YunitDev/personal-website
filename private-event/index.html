@@ -30,6 +30,8 @@
             --line: #EBE4DB;
             --ok: #2F7A4E;
             --danger: #B44A3A;
+            --cta: #B44A3A;
+            --cta-hover: #8F3A2D;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -102,7 +104,7 @@
 
         h1 em {
             font-style: italic;
-            color: var(--accent);
+            color: var(--cta);
         }
 
         .subtitle {
@@ -219,15 +221,15 @@
 
         .deadline {
             text-align: center;
-            padding: 0.75rem 1rem;
-            background: var(--accent-soft);
-            color: var(--ink);
-            border-radius: 12px;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+            color: var(--ink-soft);
+            font-size: 0.92rem;
+            margin: 0.25rem 0 1.75rem;
         }
 
-        .deadline strong { color: var(--accent); }
+        .deadline strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
 
         /* Back button */
         .back-btn {
@@ -415,7 +417,7 @@
 
         .submit-btn {
             width: 100%;
-            background: var(--ink);
+            background: var(--cta);
             color: #FFFFFF;
             border: none;
             border-radius: 14px;
@@ -429,7 +431,7 @@
             transition: background 0.2s, transform 0.1s;
         }
 
-        .submit-btn:hover:not(:disabled) { background: var(--accent); }
+        .submit-btn:hover:not(:disabled) { background: var(--cta-hover); }
         .submit-btn:active:not(:disabled) { transform: scale(0.99); }
         .submit-btn:disabled { opacity: 0.5; cursor: wait; }
 
@@ -683,7 +685,7 @@
             <header class="hero">
                 <p class="eyebrow">You're Invited</p>
                 <div class="private-badge">Private Event · Invitation Only</div>
-                <h1>The <em>Wedding<br>Pre-Game</em></h1>
+                <h1>The Wedding<br><em>Pre-Game</em></h1>
                 <p class="subtitle">Phillip &amp; Courtnie</p>
                 <p class="description">We're kicking off the wedding weekend early with a boat party for just our closest friends.</p>
             </header>
