@@ -598,6 +598,140 @@
             transform: translateX(2px);
         }
 
+        /* Zelle expandable row */
+        button.pay-method {
+            -webkit-appearance: none;
+            appearance: none;
+            font: inherit;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .pay-method[aria-expanded="true"] {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-color: transparent;
+        }
+
+        .pay-arrow-chevron { transition: transform 0.2s; }
+
+        .pay-method[aria-expanded="true"] .pay-arrow-chevron {
+            transform: rotate(180deg);
+        }
+
+        .pay-method[aria-expanded="true"]:hover .pay-arrow-chevron {
+            transform: rotate(180deg) translateX(-2px);
+        }
+
+        .pay-panel {
+            padding: 1.1rem 1rem 1.2rem;
+            background: var(--accent-soft);
+            border: 1px solid var(--line);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+            margin-top: -0.55rem;
+            text-align: center;
+        }
+
+        .pay-panel img {
+            width: 100%;
+            max-width: 220px;
+            display: block;
+            margin: 0 auto 0.8rem;
+            border-radius: 12px;
+            background: #FFFFFF;
+            padding: 0.5rem;
+        }
+
+        .pay-panel-note {
+            font-size: 0.88rem;
+            color: var(--ink-soft);
+            line-height: 1.5;
+        }
+
+        .pay-panel-note strong { color: var(--ink); font-weight: 600; }
+
+        /* Payment-confirmation modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 22, 20, 0.55);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 1rem;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay[hidden] { display: none; }
+
+        .modal-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 1.75rem 1.5rem 1.5rem;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 24px 48px rgba(26, 22, 20, 0.2);
+            animation: fadeIn 0.25s ease;
+        }
+
+        .modal-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.65rem;
+            font-weight: 400;
+            line-height: 1.15;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        .modal-title em { font-style: italic; color: var(--cta); }
+
+        .modal-body {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+
+        .modal-btn {
+            padding: 0.95rem 1rem;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.98rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s;
+            border: 1px solid transparent;
+        }
+
+        .modal-btn:active { transform: scale(0.99); }
+
+        .modal-btn-primary {
+            background: var(--cta);
+            color: #FFFFFF;
+        }
+
+        .modal-btn-primary:hover { background: var(--cta-hover); }
+
+        .modal-btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border-color: var(--line);
+        }
+
+        .modal-btn-secondary:hover { border-color: var(--ink); }
+
         .success-card {
             text-align: center;
         }
@@ -674,7 +808,7 @@
         <section class="view active" id="view-landing">
             <header class="hero">
                 <p class="eyebrow">You're Invited</p>
-                <div class="private-badge">Private Event · Invitation Only</div>
+                <div class="private-badge">Optional Event · Invitation Only</div>
                 <h1>The Pre-Wedding<br><em>Excursion</em></h1>
                 <p class="subtitle">Phillip &amp; Courtnie</p>
                 <p class="description">A private catamaran excursion for our closest friends — an afternoon on the water before the wedding weekend.</p>
@@ -746,19 +880,11 @@
         <section class="view" id="view-form">
             <button type="button" class="back-btn" id="back-to-landing">← Back to details</button>
 
-            <div class="deadline-callout">
-                <span class="deadline-callout-icon">⏳</span>
-                <div>
-                    <strong>RSVP and payment both due by Tuesday, May 5, 2026.</strong>
-                    Your spot is only held once payment is received.
-                </div>
-            </div>
-
             <div class="card">
                 <h2 class="view-heading">Your <em>RSVP</em></h2>
                 <p class="view-subheading">Just a few details, then complete payment below to lock in your spot.</p>
 
-                <form id="rsvp-form" action="https://formspree.io/f/xrerylay" method="POST" novalidate>
+                <form id="rsvp-form" action="https://formspree.io/f/xrerylay" method="POST">
 
                     <div class="field">
                         <label>Your name</label>
@@ -802,7 +928,14 @@
             <!-- Payment card — visible directly below form when YES is selected -->
             <div class="payment-card" id="payment-card">
                 <h2 class="payment-heading"><em>Complete</em> your payment</h2>
-                <p class="payment-lead">Your spot is only held once payment is received. Choose the option that works for you.</p>
+
+                <div class="deadline-callout">
+                    <span class="deadline-callout-icon">⏳</span>
+                    <div>
+                        <strong>RSVP and payment both due by Tuesday, May 5, 2026.</strong>
+                        Your spot is only held once payment is received.
+                    </div>
+                </div>
 
                 <div class="total-card">
                     <div class="total-label">Total Due</div>
@@ -816,19 +949,22 @@
                         <span class="pay-handle">(562) 673-8154</span>
                         <span class="pay-arrow">→</span>
                     </a>
-                    <a class="pay-method"
-                       href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
-                       target="_blank"
-                       rel="noopener">
-                        <span class="pay-badge pay-zelle">Zelle</span>
-                        <span class="pay-handle">(562) 673-8154</span>
-                        <span class="pay-arrow">→</span>
-                    </a>
                     <a class="pay-method" href="https://cash.app/$PhillipJLA" target="_blank" rel="noopener">
                         <span class="pay-badge pay-cashapp">Cash App</span>
                         <span class="pay-handle">$PhillipJLA</span>
                         <span class="pay-arrow">→</span>
                     </a>
+                    <div class="pay-method-group">
+                        <button type="button" class="pay-method" id="zelle-toggle" aria-expanded="false" aria-controls="zelle-panel">
+                            <span class="pay-badge pay-zelle">Zelle</span>
+                            <span class="pay-handle">(562) 673-8154</span>
+                            <span class="pay-arrow pay-arrow-chevron">▾</span>
+                        </button>
+                        <div class="pay-panel" id="zelle-panel" hidden>
+                            <img src="zelle-qr.jpg" alt="Zelle QR code for Phillip">
+                            <p class="pay-panel-note">Scan this with your Zelle app, or send payment to <strong>(562) 673-8154</strong>.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -842,34 +978,7 @@
         <section class="view" id="view-success-yes">
             <div class="card success-card">
                 <h2>Thank you, <em>we can't wait</em></h2>
-                <p class="lead">Your RSVP is in. <strong>If you haven't already paid, please do that now</strong> — your spot is only held once payment is received by <strong>Tuesday, May 5, 2026</strong>.</p>
-
-                <div class="total-card">
-                    <div class="total-label">Total Due</div>
-                    <div class="total-amount" id="total-amount-success">$150</div>
-                    <div class="total-note" id="total-note-success">$150 × 1 guest</div>
-                </div>
-
-                <div class="pay-methods">
-                    <a class="pay-method" href="sms:+15626738154">
-                        <span class="pay-badge pay-apple">Apple Pay</span>
-                        <span class="pay-handle">(562) 673-8154</span>
-                        <span class="pay-arrow">→</span>
-                    </a>
-                    <a class="pay-method"
-                       href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
-                       target="_blank"
-                       rel="noopener">
-                        <span class="pay-badge pay-zelle">Zelle</span>
-                        <span class="pay-handle">(562) 673-8154</span>
-                        <span class="pay-arrow">→</span>
-                    </a>
-                    <a class="pay-method" href="https://cash.app/$PhillipJLA" target="_blank" rel="noopener">
-                        <span class="pay-badge pay-cashapp">Cash App</span>
-                        <span class="pay-handle">$PhillipJLA</span>
-                        <span class="pay-arrow">→</span>
-                    </a>
-                </div>
+                <p class="lead">Looking forward to seeing you on the water. We'll be in touch with the final pickup details as we get closer.</p>
             </div>
         </section>
 
@@ -884,6 +993,18 @@
         </section>
 
         <p class="footer">A private invitation · Please do not share</p>
+    </div>
+
+    <!-- Payment confirmation modal -->
+    <div class="modal-overlay" id="payment-confirm-modal" hidden>
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <h3 id="modal-title" class="modal-title">Have you <em>already sent</em> payment?</h3>
+            <p class="modal-body">Your spot is only held once we receive payment. If you haven't paid yet, no worries — just pick a payment option and come back.</p>
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-primary" id="modal-btn-yes">Yes, I've paid</button>
+                <button type="button" class="modal-btn modal-btn-secondary" id="modal-btn-no">Not yet — show me the options</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -908,8 +1029,13 @@
         const paymentCard = document.getElementById('payment-card');
         const totalAmount = document.getElementById('total-amount');
         const totalNote = document.getElementById('total-note');
-        const totalAmountSuccess = document.getElementById('total-amount-success');
-        const totalNoteSuccess = document.getElementById('total-note-success');
+
+        const zelleToggle = document.getElementById('zelle-toggle');
+        const zellePanel = document.getElementById('zelle-panel');
+
+        const paymentModal = document.getElementById('payment-confirm-modal');
+        const modalBtnYes = document.getElementById('modal-btn-yes');
+        const modalBtnNo = document.getElementById('modal-btn-no');
 
         const PRICE = 150;
         const MAX_GUESTS = 10;
@@ -988,12 +1114,8 @@
         function updateTotal() {
             const guestCount = guestList.querySelectorAll('.guest-row').length || 1;
             const total = PRICE * guestCount;
-            const formatted = '$' + total.toLocaleString();
-            const note = `$${PRICE} × ${guestCount} guest${guestCount === 1 ? '' : 's'}`;
-            totalAmount.textContent = formatted;
-            totalNote.textContent = note;
-            totalAmountSuccess.textContent = formatted;
-            totalNoteSuccess.textContent = note;
+            totalAmount.textContent = '$' + total.toLocaleString();
+            totalNote.textContent = `$${PRICE} × ${guestCount} guest${guestCount === 1 ? '' : 's'}`;
         }
 
         function toggleGuestsAndPayment() {
@@ -1026,10 +1148,48 @@
             updateTotal();
         });
 
+        /* -------- Zelle expand/collapse -------- */
+
+        zelleToggle.addEventListener('click', () => {
+            const expanded = zelleToggle.getAttribute('aria-expanded') === 'true';
+            zelleToggle.setAttribute('aria-expanded', String(!expanded));
+            zellePanel.hidden = expanded;
+        });
+
+        /* -------- Payment confirmation modal -------- */
+
+        function openModal() {
+            paymentModal.hidden = false;
+            modalBtnYes.focus();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            paymentModal.hidden = true;
+            document.body.style.overflow = '';
+        }
+
+        modalBtnNo.addEventListener('click', () => {
+            closeModal();
+            paymentCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        modalBtnYes.addEventListener('click', () => {
+            closeModal();
+            doSubmit();
+        });
+
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !paymentModal.hidden) closeModal();
+        });
+
         /* -------- Form submission -------- */
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function doSubmit() {
             errorMsg.classList.remove('visible');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending…';
@@ -1050,15 +1210,25 @@
                 }
 
                 if (rsvpYes.checked) {
-                    updateTotal();
                     showView(viewSuccessYes);
                 } else {
                     showView(viewSuccessNo);
                 }
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send RSVP';
             } catch (err) {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send RSVP';
                 errorMsg.classList.add('visible');
+            }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (rsvpYes.checked) {
+                openModal();
+            } else {
+                doSubmit();
             }
         });
     </script>
