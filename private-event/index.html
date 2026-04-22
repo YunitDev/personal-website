@@ -756,6 +756,88 @@
             font-weight: 600;
         }
 
+        /* Celebratory success screen */
+        .celebration-card {
+            background: linear-gradient(175deg, #FFF5E8 0%, #FFFFFF 75%);
+            border: 1px solid #F3DDBB;
+            padding: 3rem 1.75rem 2.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confetti-dot {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            border-radius: 2px;
+            top: -22px;
+            animation: confetti-fall 5s ease-in-out infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .confetti-dot-1 { left: 8%;  background: #B44A3A; animation-delay: 0s; }
+        .confetti-dot-2 { left: 22%; background: #F2B97A; animation-delay: 0.5s; }
+        .confetti-dot-3 { left: 38%; background: #8A6B3D; animation-delay: 1s; }
+        .confetti-dot-4 { left: 58%; background: #B44A3A; animation-delay: 1.7s; }
+        .confetti-dot-5 { left: 74%; background: #F2B97A; animation-delay: 2.2s; }
+        .confetti-dot-6 { left: 90%; background: #8A6B3D; animation-delay: 2.8s; }
+
+        @keyframes confetti-fall {
+            0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+            8%   { opacity: 0.85; }
+            60%  { opacity: 0.85; }
+            100% { opacity: 0; transform: translateY(340px) rotate(540deg); }
+        }
+
+        .celebration-mark {
+            font-size: 2.25rem;
+            margin-bottom: 0.85rem;
+            display: inline-block;
+            animation: celebrate-bounce 2.8s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes celebrate-bounce {
+            0%, 100% { transform: translateY(0) rotate(-6deg); }
+            50%     { transform: translateY(-7px) rotate(6deg); }
+        }
+
+        .celebration-card h2 {
+            font-size: clamp(2.25rem, 8.5vw, 3rem);
+            line-height: 1.05;
+            margin-bottom: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .celebration-card .lead {
+            font-size: 1.02rem;
+            line-height: 1.6;
+            color: var(--ink-soft);
+            max-width: 36ch;
+            margin: 0 auto 1.25rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .celebration-signoff {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            color: var(--cta);
+            font-size: 1.15rem;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .confetti-dot,
+            .celebration-mark { animation: none; }
+            .confetti-dot { opacity: 0; }
+        }
+
         .footer {
             text-align: center;
             margin-top: 2rem;
@@ -976,9 +1058,18 @@
         <!-- VIEW 3: Success — YES                        -->
         <!-- ============================================ -->
         <section class="view" id="view-success-yes">
-            <div class="card success-card">
-                <h2>Thank you, <em>we can't wait</em></h2>
-                <p class="lead">Looking forward to seeing you on the water. We'll be in touch with the final pickup details as we get closer.</p>
+            <div class="card success-card celebration-card">
+                <span class="confetti-dot confetti-dot-1"></span>
+                <span class="confetti-dot confetti-dot-2"></span>
+                <span class="confetti-dot confetti-dot-3"></span>
+                <span class="confetti-dot confetti-dot-4"></span>
+                <span class="confetti-dot confetti-dot-5"></span>
+                <span class="confetti-dot confetti-dot-6"></span>
+
+                <div class="celebration-mark">✨</div>
+                <h2>You're <em>officially in</em></h2>
+                <p class="lead">We can't wait to have you on the water with us. We'll share the final pickup details as we get closer.</p>
+                <p class="celebration-signoff">— Phillip &amp; Courtnie</p>
             </div>
         </section>
 
@@ -1041,7 +1132,7 @@
         const MAX_GUESTS = 10;
 
         // Flip FORCE_DRAFT to false when ready to accept real RSVP submissions.
-        const FORCE_DRAFT = true;
+        const FORCE_DRAFT = false;
 
         const DRAFT_MODE = FORCE_DRAFT ||
             location.hostname === 'localhost' ||
