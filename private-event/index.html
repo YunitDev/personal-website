@@ -520,113 +520,76 @@
             margin-top: 0.35rem;
         }
 
-        .deadline-banner {
-            display: flex;
-            align-items: center;
-            gap: 0.9rem;
-            background: #1A1614;
-            color: #FFFFFF;
-            border-radius: 14px;
-            padding: 0.9rem 1.1rem;
-            margin-bottom: 1.25rem;
-            text-align: left;
-        }
-
-        .deadline-banner .deadline-icon {
-            flex: 0 0 auto;
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-
-        .deadline-banner .deadline-body {
+        /* Payment method rows */
+        .pay-methods {
             display: flex;
             flex-direction: column;
-            gap: 0.1rem;
-            flex: 1;
+            gap: 0.55rem;
+            margin-top: 0.25rem;
         }
 
-        .deadline-banner .deadline-label {
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: #F2B97A;
-        }
-
-        .deadline-banner .deadline-date {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #FFFFFF;
-            line-height: 1.2;
-        }
-
-        .deadline-banner .deadline-note {
-            font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.65);
-        }
-
-        .pay-btn {
+        .pay-method {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            width: 100%;
-            background: #6B1BC4;
-            color: #FFFFFF;
-            border: none;
+            gap: 0.85rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--line);
             border-radius: 14px;
-            padding: 1.1rem;
-            font-family: inherit;
-            font-size: 1.05rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-        }
-
-        .pay-btn:hover { background: #581AA1; }
-        .pay-btn:active { transform: scale(0.99); }
-
-        .pay-alt {
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--ink-soft);
-            margin-top: 1rem;
-        }
-
-        .pay-alt strong { color: var(--ink); }
-
-        details.qr-details {
-            margin-top: 1rem;
-            border-top: 1px solid var(--line);
-            padding-top: 1rem;
-        }
-
-        details.qr-details summary {
-            cursor: pointer;
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-            text-align: center;
-            list-style: none;
-        }
-
-        details.qr-details summary::-webkit-details-marker { display: none; }
-        details.qr-details summary::before { content: '▸ '; }
-        details.qr-details[open] summary::before { content: '▾ '; }
-
-        details.qr-details img {
-            width: 100%;
-            max-width: 260px;
-            display: block;
-            margin: 1rem auto 0;
-            border-radius: 12px;
             background: #FFFFFF;
+            text-decoration: none;
+            color: var(--ink);
+            transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+        }
+
+        .pay-method:hover {
+            border-color: var(--ink);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(26, 22, 20, 0.06);
+        }
+
+        .pay-method:active { transform: translateY(0) scale(0.995); }
+
+        .pay-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.4rem 0.7rem;
+            border-radius: 9px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            min-width: 92px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .pay-apple { background: #000000; color: #FFFFFF; }
+        .pay-zelle { background: #6B1BC4; color: #FFFFFF; }
+        .pay-cashapp { background: #00D632; color: #0B2E10; }
+
+        .pay-handle {
+            flex: 1;
+            color: var(--ink);
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.01em;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .pay-arrow {
+            color: var(--ink-softer);
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: color 0.15s, transform 0.15s;
+        }
+
+        .pay-method:hover .pay-arrow {
+            color: var(--ink);
+            transform: translateX(2px);
         }
 
         .success-card {
@@ -646,6 +609,11 @@
         .success-card .lead {
             color: var(--ink-soft);
             margin-bottom: 1.5rem;
+        }
+
+        .success-card .lead strong {
+            color: var(--ink);
+            font-weight: 600;
         }
 
         .footer {
@@ -828,7 +796,7 @@
             <!-- Payment card — visible directly below form when YES is selected -->
             <div class="payment-card" id="payment-card">
                 <h2 class="payment-heading"><em>Complete</em> your payment</h2>
-                <p class="payment-lead">Your RSVP is only confirmed once payment is received.</p>
+                <p class="payment-lead">Your spot is only held once payment is received. Choose the option that works for you.</p>
 
                 <div class="total-card">
                     <div class="total-label">Total Due</div>
@@ -836,30 +804,26 @@
                     <div class="total-note" id="total-note">$150 × 1 guest</div>
                 </div>
 
-                <div class="deadline-banner">
-                    <div class="deadline-icon">⏳</div>
-                    <div class="deadline-body">
-                        <span class="deadline-label">Pay by</span>
-                        <span class="deadline-date">Tuesday, May 5, 2026</span>
-                        <span class="deadline-note">Your spot is only held once payment is received.</span>
-                    </div>
+                <div class="pay-methods">
+                    <a class="pay-method" href="sms:+15626738154">
+                        <span class="pay-badge pay-apple">Apple Pay</span>
+                        <span class="pay-handle">(562) 673-8154</span>
+                        <span class="pay-arrow">→</span>
+                    </a>
+                    <a class="pay-method"
+                       href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
+                       target="_blank"
+                       rel="noopener">
+                        <span class="pay-badge pay-zelle">Zelle</span>
+                        <span class="pay-handle">(562) 673-8154</span>
+                        <span class="pay-arrow">→</span>
+                    </a>
+                    <a class="pay-method" href="https://cash.app/$PhillipJLA" target="_blank" rel="noopener">
+                        <span class="pay-badge pay-cashapp">Cash App</span>
+                        <span class="pay-handle">$PhillipJLA</span>
+                        <span class="pay-arrow">→</span>
+                    </a>
                 </div>
-
-                <a href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
-                   class="pay-btn"
-                   target="_blank"
-                   rel="noopener">
-                    Pay with Zelle →
-                </a>
-
-                <p class="pay-alt">
-                    Or send to Phillip at <strong>(562) 673-8154</strong> in your banking app.
-                </p>
-
-                <details class="qr-details">
-                    <summary>Show QR code instead</summary>
-                    <img src="zelle-qr.jpg" alt="Zelle QR code for Phillip">
-                </details>
             </div>
 
             <button type="submit" form="rsvp-form" class="submit-btn" id="submit-btn">Send RSVP</button>
@@ -872,7 +836,7 @@
         <section class="view" id="view-success-yes">
             <div class="card success-card">
                 <h2>Thank you, <em>we can't wait</em></h2>
-                <p class="lead">Your RSVP is received. Please complete payment below to hold your spot.</p>
+                <p class="lead">Your RSVP is in. <strong>If you haven't already paid, please do that now</strong> — your spot is only held once payment is received by <strong>Tuesday, May 5, 2026</strong>.</p>
 
                 <div class="total-card">
                     <div class="total-label">Total Due</div>
@@ -880,30 +844,26 @@
                     <div class="total-note" id="total-note-success">$150 × 1 guest</div>
                 </div>
 
-                <div class="deadline-banner">
-                    <div class="deadline-icon">⏳</div>
-                    <div class="deadline-body">
-                        <span class="deadline-label">Pay by</span>
-                        <span class="deadline-date">Tuesday, May 5, 2026</span>
-                        <span class="deadline-note">Your spot is only held once payment is received.</span>
-                    </div>
+                <div class="pay-methods">
+                    <a class="pay-method" href="sms:+15626738154">
+                        <span class="pay-badge pay-apple">Apple Pay</span>
+                        <span class="pay-handle">(562) 673-8154</span>
+                        <span class="pay-arrow">→</span>
+                    </a>
+                    <a class="pay-method"
+                       href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
+                       target="_blank"
+                       rel="noopener">
+                        <span class="pay-badge pay-zelle">Zelle</span>
+                        <span class="pay-handle">(562) 673-8154</span>
+                        <span class="pay-arrow">→</span>
+                    </a>
+                    <a class="pay-method" href="https://cash.app/$PhillipJLA" target="_blank" rel="noopener">
+                        <span class="pay-badge pay-cashapp">Cash App</span>
+                        <span class="pay-handle">$PhillipJLA</span>
+                        <span class="pay-arrow">→</span>
+                    </a>
                 </div>
-
-                <a href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
-                   class="pay-btn"
-                   target="_blank"
-                   rel="noopener">
-                    Pay with Zelle →
-                </a>
-
-                <p class="pay-alt">
-                    Or send to Phillip at <strong>(562) 673-8154</strong> in your banking app.
-                </p>
-
-                <details class="qr-details">
-                    <summary>Show QR code instead</summary>
-                    <img src="zelle-qr.jpg" alt="Zelle QR code for Phillip">
-                </details>
             </div>
         </section>
 
