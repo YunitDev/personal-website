@@ -219,8 +219,8 @@
             margin-top: 0.15rem;
         }
 
-        /* Prominent deadline callout on the form view */
-        .form-deadline {
+        /* Prominent deadline callout (used on landing + form views) */
+        .deadline-callout {
             display: flex;
             align-items: flex-start;
             gap: 0.65rem;
@@ -234,17 +234,23 @@
             color: var(--ink);
         }
 
-        .form-deadline-icon {
+        .deadline-callout-icon {
             flex-shrink: 0;
             font-size: 1.05rem;
             margin-top: 0.05rem;
         }
 
-        .form-deadline strong {
+        .deadline-callout strong {
             display: block;
             color: var(--cta);
             font-weight: 600;
             margin-bottom: 0.15rem;
+        }
+
+        /* Landing callout gets a little extra breathing room before the CTA */
+        #view-landing .deadline-callout {
+            margin-top: 0.25rem;
+            margin-bottom: 1.25rem;
         }
 
         /* Back button */
@@ -721,13 +727,13 @@
                         <div class="detail-sub">Covers food, drinks, music, and transportation</div>
                     </div>
                 </div>
-                <div class="detail-row">
-                    <div class="detail-icon">⏳</div>
-                    <div class="detail-body">
-                        <div class="detail-label">RSVP Deadline</div>
-                        <div class="detail-value">Tuesday, May 5, 2026</div>
-                        <div class="detail-sub">Payment also due by this date to hold your spot</div>
-                    </div>
+            </div>
+
+            <div class="deadline-callout">
+                <span class="deadline-callout-icon">⏳</span>
+                <div>
+                    <strong>Please RSVP by Tuesday, May 5, 2026.</strong>
+                    Payment is also due by this date to hold your spot.
                 </div>
             </div>
 
@@ -740,8 +746,8 @@
         <section class="view" id="view-form">
             <button type="button" class="back-btn" id="back-to-landing">← Back to details</button>
 
-            <div class="form-deadline">
-                <span class="form-deadline-icon">⏳</span>
+            <div class="deadline-callout">
+                <span class="deadline-callout-icon">⏳</span>
                 <div>
                     <strong>RSVP and payment both due by Tuesday, May 5, 2026.</strong>
                     Your spot is only held once payment is received.
