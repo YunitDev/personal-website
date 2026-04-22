@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Event — The Aubreys</title>
+    <title>The Wedding Pre-Game — The Aubreys</title>
 
     <meta name="robots" content="noindex, nofollow">
     <meta name="referrer" content="no-referrer">
@@ -51,9 +51,12 @@
             margin: 0 auto;
         }
 
+        .view { display: none; animation: fadeIn 0.35s ease; }
+        .view.active { display: block; }
+
         .hero {
             text-align: center;
-            padding: 1.5rem 0 2rem;
+            padding: 1.5rem 0 1rem;
         }
 
         .eyebrow {
@@ -92,6 +95,46 @@
             line-height: 1.6;
         }
 
+        /* Auto-scrolling tag marquee */
+        .tag-marquee {
+            overflow: hidden;
+            margin: 1.5rem -1.25rem 1.75rem;
+            padding: 0.25rem 0;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+        }
+
+        .tag-track {
+            display: flex;
+            gap: 0.55rem;
+            width: max-content;
+            animation: scroll-tags 32s linear infinite;
+        }
+
+        .tag-marquee:hover .tag-track { animation-play-state: paused; }
+
+        @keyframes scroll-tags {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.95rem;
+            background: var(--card);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tag .tag-emoji { font-size: 0.95rem; }
+
         .card {
             background: var(--card);
             border: 1px solid var(--line);
@@ -100,53 +143,54 @@
             margin-bottom: 1rem;
         }
 
-        .card + .card { margin-top: 0; }
+        /* Event details — cleaner layout with icons */
+        .details-card { padding: 0.25rem 1.5rem; }
 
-        .details-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0.85rem 1rem;
-            align-items: baseline;
-        }
-
-        .details-grid dt {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--ink-softer);
-        }
-
-        .details-grid dd { color: var(--ink); }
-
-        .price-row {
+        .detail-row {
             display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            padding-top: 1rem;
-            margin-top: 1rem;
-            border-top: 1px solid var(--line);
+            gap: 1rem;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--line);
+            align-items: flex-start;
         }
 
-        .price-row .label {
-            font-size: 0.75rem;
+        .detail-row:last-child { border-bottom: none; }
+
+        .detail-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: var(--accent-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-top: 0.1rem;
+        }
+
+        .detail-body { flex: 1; min-width: 0; }
+
+        .detail-label {
+            font-size: 0.68rem;
             font-weight: 600;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--ink-softer);
+            margin-bottom: 0.2rem;
         }
 
-        .price-row .amount {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.75rem;
+        .detail-value {
+            font-size: 1.02rem;
+            font-weight: 600;
             color: var(--ink);
+            line-height: 1.3;
         }
 
-        .price-row .amount small {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.85rem;
+        .detail-sub {
+            font-size: 0.86rem;
             color: var(--ink-soft);
-            font-weight: 400;
+            margin-top: 0.15rem;
         }
 
         .deadline {
@@ -160,6 +204,40 @@
         }
 
         .deadline strong { color: var(--accent); }
+
+        /* Back button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: transparent;
+            border: none;
+            color: var(--ink-soft);
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0.5rem 0.75rem 0.5rem 0;
+            margin-bottom: 0.5rem;
+            transition: color 0.15s;
+        }
+
+        .back-btn:hover { color: var(--accent); }
+
+        .view-heading {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+            line-height: 1.1;
+        }
+
+        .view-heading em { font-style: italic; color: var(--accent); }
+
+        .view-subheading {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
 
         /* Form */
         form { display: block; }
@@ -323,7 +401,7 @@
             font-weight: 600;
             letter-spacing: 0.02em;
             cursor: pointer;
-            margin-top: 1.5rem;
+            margin-top: 1.25rem;
             transition: background 0.2s, transform 0.1s;
         }
 
@@ -341,28 +419,33 @@
 
         .error-msg.visible { display: block; }
 
-        /* Success screens */
-        .success {
+        /* Payment card — visible alongside form when YES */
+        .payment-card {
             display: none;
-            text-align: center;
-            animation: fadeIn 0.4s ease;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.35s ease;
         }
 
-        .success.active { display: block; }
+        .payment-card.visible { display: block; }
 
-        .success h2 {
+        .payment-heading {
             font-family: 'Instrument Serif', serif;
-            font-size: 2.25rem;
+            font-size: 1.5rem;
             font-weight: 400;
-            margin-bottom: 0.5rem;
-            color: var(--ink);
+            margin-bottom: 0.25rem;
+            line-height: 1.1;
         }
 
-        .success h2 em { font-style: italic; color: var(--accent); }
+        .payment-heading em { font-style: italic; color: var(--accent); }
 
-        .success .lead {
+        .payment-lead {
             color: var(--ink-soft);
-            margin-bottom: 1.5rem;
+            font-size: 0.92rem;
+            margin-bottom: 1.25rem;
         }
 
         .total-card {
@@ -374,9 +457,9 @@
         }
 
         .total-card .total-label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--accent);
             margin-bottom: 0.25rem;
@@ -384,13 +467,13 @@
 
         .total-card .total-amount {
             font-family: 'Instrument Serif', serif;
-            font-size: 2.75rem;
+            font-size: 2.5rem;
             color: var(--ink);
             line-height: 1;
         }
 
         .total-card .total-note {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--ink-soft);
             margin-top: 0.35rem;
         }
@@ -504,6 +587,25 @@
             background: #FFFFFF;
         }
 
+        .success-card {
+            text-align: center;
+        }
+
+        .success-card h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.25rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        .success-card h2 em { font-style: italic; color: var(--accent); }
+
+        .success-card .lead {
+            color: var(--ink-soft);
+            margin-bottom: 1.5rem;
+        }
+
         .footer {
             text-align: center;
             margin-top: 2rem;
@@ -539,6 +641,8 @@
         @media (max-width: 480px) {
             body { padding: 1.25rem 1rem 2.5rem; }
             .card { padding: 1.25rem; border-radius: 18px; }
+            .details-card { padding: 0.25rem 1.25rem; }
+            .payment-card { padding: 1.25rem; border-radius: 18px; }
             .guest-row { grid-template-columns: 1fr 1fr auto; }
         }
     </style>
@@ -548,27 +652,63 @@
 
     <div class="container">
 
-        <!-- Hero -->
-        <header class="hero">
-            <p class="eyebrow">You're Invited</p>
-            <h1>A <em>catamaran party</em><br>before the wedding</h1>
-            <p class="subtitle">Phillip &amp; Courtnie · May 22, 2026</p>
-            <p class="description">We're renting a catamaran for 30–40 of our closest friends — four hours of snorkeling, music, food, and drinks on the water. A relaxed afternoon to hang out and get to know each other before the wedding.</p>
-        </header>
+        <!-- ============================================ -->
+        <!-- VIEW 1: Landing (event info only, no form)   -->
+        <!-- ============================================ -->
+        <section class="view active" id="view-landing">
+            <header class="hero">
+                <p class="eyebrow">You're Invited</p>
+                <h1>The <em>Wedding<br>Pre-Game</em></h1>
+                <p class="subtitle">Phillip &amp; Courtnie · May 22, 2026</p>
+                <p class="description">A chance for our closest friends to spend time together before the wedding. Thirty to forty of us on a private catamaran for four hours — food, drinks, music, and snorkeling included.</p>
+            </header>
 
-        <!-- Form wrapper (hidden after submit) -->
-        <div id="form-wrap">
+            <!-- Auto-scrolling tag carousel -->
+            <div class="tag-marquee" aria-hidden="true">
+                <div class="tag-track">
+                    <span class="tag"><span class="tag-emoji">⏱️</span> 4 hours</span>
+                    <span class="tag"><span class="tag-emoji">🍽️</span> Food</span>
+                    <span class="tag"><span class="tag-emoji">🍹</span> Drinks</span>
+                    <span class="tag"><span class="tag-emoji">🎶</span> Music</span>
+                    <span class="tag"><span class="tag-emoji">🤿</span> Snorkeling</span>
+                    <span class="tag"><span class="tag-emoji">🚐</span> Transportation included</span>
+                    <span class="tag"><span class="tag-emoji">⛵</span> Private catamaran</span>
+                    <!-- duplicated for seamless loop -->
+                    <span class="tag"><span class="tag-emoji">⏱️</span> 4 hours</span>
+                    <span class="tag"><span class="tag-emoji">🍽️</span> Food</span>
+                    <span class="tag"><span class="tag-emoji">🍹</span> Drinks</span>
+                    <span class="tag"><span class="tag-emoji">🎶</span> Music</span>
+                    <span class="tag"><span class="tag-emoji">🤿</span> Snorkeling</span>
+                    <span class="tag"><span class="tag-emoji">🚐</span> Transportation included</span>
+                    <span class="tag"><span class="tag-emoji">⛵</span> Private catamaran</span>
+                </div>
+            </div>
 
-            <!-- Event details -->
-            <div class="card">
-                <dl class="details-grid">
-                    <dt>Date</dt><dd>Friday, May 22, 2026</dd>
-                    <dt>Time</dt><dd>1:00 PM</dd>
-                    <dt>Pickup</dt><dd>Moon Palace<br><span style="color:var(--ink-soft);font-size:0.9rem;">Transportation provided</span></dd>
-                </dl>
-                <div class="price-row">
-                    <span class="label">Per Person</span>
-                    <span class="amount">$150<small> / guest</small></span>
+            <!-- Clean event details card -->
+            <div class="card details-card">
+                <div class="detail-row">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-body">
+                        <div class="detail-label">When</div>
+                        <div class="detail-value">Friday, May 22, 2026</div>
+                        <div class="detail-sub">1:00 PM · 4 hours on the water</div>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-body">
+                        <div class="detail-label">Pickup</div>
+                        <div class="detail-value">Moon Palace</div>
+                        <div class="detail-sub">Transportation to &amp; from the boat included</div>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-icon">💵</div>
+                    <div class="detail-body">
+                        <div class="detail-label">Cost</div>
+                        <div class="detail-value">$150 per guest</div>
+                        <div class="detail-sub">Covers food, drinks, music, and transportation</div>
+                    </div>
                 </div>
             </div>
 
@@ -576,8 +716,19 @@
                 Please RSVP by <strong>May 5, 2026</strong>
             </div>
 
-            <!-- RSVP form -->
+            <button type="button" class="submit-btn" id="rsvp-cta">Send RSVP</button>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 2: Form + payment together              -->
+        <!-- ============================================ -->
+        <section class="view" id="view-form">
+            <button type="button" class="back-btn" id="back-to-landing">← Back to details</button>
+
             <div class="card">
+                <h2 class="view-heading">Your <em>RSVP</em></h2>
+                <p class="view-subheading">Just a few details, then complete payment below to lock in your spot.</p>
+
                 <form id="rsvp-form" action="https://formspree.io/f/xrerylay" method="POST" novalidate>
 
                     <div class="field">
@@ -616,18 +767,13 @@
                     <!-- Formspree honeypot -->
                     <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                     <input type="hidden" name="_subject" value="Boat Party RSVP">
-
-                    <button type="submit" class="submit-btn" id="submit-btn">Send RSVP</button>
-                    <p class="error-msg" id="error-msg">Something went wrong. Please try again or text Phillip directly.</p>
                 </form>
             </div>
-        </div>
 
-        <!-- Success: YES -->
-        <div class="success" id="success-yes">
-            <div class="card">
-                <h2>Thank you, <em>we can't wait</em></h2>
-                <p class="lead">Last step — please send payment to hold your spot.</p>
+            <!-- Payment card — visible directly below form when YES is selected -->
+            <div class="payment-card" id="payment-card">
+                <h2 class="payment-heading"><em>Complete</em> your payment</h2>
+                <p class="payment-lead">Your RSVP is only confirmed once payment is received.</p>
 
                 <div class="total-card">
                     <div class="total-label">Total Due</div>
@@ -660,22 +806,75 @@
                     <img src="zelle-qr.jpg" alt="Zelle QR code for Phillip">
                 </details>
             </div>
-        </div>
 
-        <!-- Success: NO -->
-        <div class="success" id="success-no">
-            <div class="card">
+            <button type="submit" form="rsvp-form" class="submit-btn" id="submit-btn">Send RSVP</button>
+            <p class="error-msg" id="error-msg">Something went wrong. Please try again or text Phillip directly.</p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 3: Success — YES                        -->
+        <!-- ============================================ -->
+        <section class="view" id="view-success-yes">
+            <div class="card success-card">
+                <h2>Thank you, <em>we can't wait</em></h2>
+                <p class="lead">Your RSVP is received. Please complete payment below to hold your spot.</p>
+
+                <div class="total-card">
+                    <div class="total-label">Total Due</div>
+                    <div class="total-amount" id="total-amount-success">$150</div>
+                    <div class="total-note" id="total-note-success">$150 × 1 guest</div>
+                </div>
+
+                <div class="deadline-banner">
+                    <div class="deadline-icon">⏳</div>
+                    <div class="deadline-body">
+                        <span class="deadline-label">Pay by</span>
+                        <span class="deadline-date">Tuesday, May 5, 2026</span>
+                        <span class="deadline-note">Your spot is only held once payment is received.</span>
+                    </div>
+                </div>
+
+                <a href="https://enroll.zellepay.com/qr-codes?data=ewogICJhY3Rpb24iIDogInBheW1lbnQiLAogICJuYW1lIiA6ICJQSElMTElQIiwKICAidG9rZW4iIDogIjU2MjY3MzgxNTQiCn0="
+                   class="pay-btn"
+                   target="_blank"
+                   rel="noopener">
+                    Pay with Zelle →
+                </a>
+
+                <p class="pay-alt">
+                    Or send to Phillip at <strong>(562) 673-8154</strong> in your banking app.
+                </p>
+
+                <details class="qr-details">
+                    <summary>Show QR code instead</summary>
+                    <img src="zelle-qr.jpg" alt="Zelle QR code for Phillip">
+                </details>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 4: Success — NO                         -->
+        <!-- ============================================ -->
+        <section class="view" id="view-success-no">
+            <div class="card success-card">
                 <h2>We'll <em>miss you</em></h2>
                 <p class="lead">Thanks for letting us know. We love you and can't wait to celebrate with you soon.</p>
             </div>
-        </div>
+        </section>
 
         <p class="footer">A private invitation · Please do not share</p>
     </div>
 
     <script>
+        const viewLanding = document.getElementById('view-landing');
+        const viewForm = document.getElementById('view-form');
+        const viewSuccessYes = document.getElementById('view-success-yes');
+        const viewSuccessNo = document.getElementById('view-success-no');
+
+        const rsvpCta = document.getElementById('rsvp-cta');
+        const backBtn = document.getElementById('back-to-landing');
+
         const form = document.getElementById('rsvp-form');
-        const formWrap = document.getElementById('form-wrap');
         const firstNameInput = document.getElementById('first-name');
         const lastNameInput = document.getElementById('last-name');
         const guestRows = document.getElementById('guest-rows');
@@ -685,10 +884,11 @@
         const rsvpNo = document.getElementById('rsvp-no');
         const submitBtn = document.getElementById('submit-btn');
         const errorMsg = document.getElementById('error-msg');
-        const successYes = document.getElementById('success-yes');
-        const successNo = document.getElementById('success-no');
+        const paymentCard = document.getElementById('payment-card');
         const totalAmount = document.getElementById('total-amount');
         const totalNote = document.getElementById('total-note');
+        const totalAmountSuccess = document.getElementById('total-amount-success');
+        const totalNoteSuccess = document.getElementById('total-note-success');
 
         const PRICE = 150;
         const MAX_GUESTS = 10;
@@ -709,6 +909,19 @@
             console.info('[RSVP] Draft mode active — form submissions will be simulated, not sent to Formspree.');
         }
 
+        /* -------- View switching -------- */
+
+        function showView(viewEl) {
+            [viewLanding, viewForm, viewSuccessYes, viewSuccessNo].forEach(v => v.classList.remove('active'));
+            viewEl.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        rsvpCta.addEventListener('click', () => showView(viewForm));
+        backBtn.addEventListener('click', () => showView(viewLanding));
+
+        /* -------- Guest rows -------- */
+
         function createGuestRow(index, { autofill = false } = {}) {
             const row = document.createElement('div');
             row.className = 'guest-row';
@@ -723,11 +936,15 @@
                 row.querySelector('input[name$="_last"]').value = lastNameInput.value.trim();
             }
             row.querySelectorAll('input').forEach(input => {
-                input.addEventListener('input', () => { row.dataset.autofilled = 'false'; });
+                input.addEventListener('input', () => {
+                    row.dataset.autofilled = 'false';
+                    updateTotal();
+                });
             });
             row.querySelector('.remove-btn').addEventListener('click', () => {
                 row.remove();
                 updateFirstRowState();
+                updateTotal();
             });
             return row;
         }
@@ -747,31 +964,48 @@
             firstRow.querySelector('input[name$="_last"]').value = lastNameInput.value.trim();
         }
 
-        function toggleGuests() {
+        function updateTotal() {
+            const guestCount = guestList.querySelectorAll('.guest-row').length || 1;
+            const total = PRICE * guestCount;
+            const formatted = '$' + total.toLocaleString();
+            const note = `$${PRICE} × ${guestCount} guest${guestCount === 1 ? '' : 's'}`;
+            totalAmount.textContent = formatted;
+            totalNote.textContent = note;
+            totalAmountSuccess.textContent = formatted;
+            totalNoteSuccess.textContent = note;
+        }
+
+        function toggleGuestsAndPayment() {
             if (rsvpYes.checked) {
                 guestRows.classList.add('active');
                 if (guestList.children.length === 0) {
                     guestList.appendChild(createGuestRow(1, { autofill: true }));
                 }
                 guestList.querySelectorAll('input').forEach(i => i.required = true);
+                paymentCard.classList.add('visible');
+                updateTotal();
             } else {
                 guestRows.classList.remove('active');
                 guestList.querySelectorAll('input').forEach(i => i.required = false);
+                paymentCard.classList.remove('visible');
             }
         }
 
         firstNameInput.addEventListener('input', syncFirstGuestFromInvitee);
         lastNameInput.addEventListener('input', syncFirstGuestFromInvitee);
 
-        rsvpYes.addEventListener('change', toggleGuests);
-        rsvpNo.addEventListener('change', toggleGuests);
+        rsvpYes.addEventListener('change', toggleGuestsAndPayment);
+        rsvpNo.addEventListener('change', toggleGuestsAndPayment);
 
         addGuestBtn.addEventListener('click', () => {
             const current = guestList.children.length;
             if (current >= MAX_GUESTS) return;
             guestList.appendChild(createGuestRow(current + 1, { autofill: false }));
             updateFirstRowState();
+            updateTotal();
         });
+
+        /* -------- Form submission -------- */
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -794,18 +1028,11 @@
                     if (!res.ok) throw new Error('Submission failed');
                 }
 
-                formWrap.style.display = 'none';
-
                 if (rsvpYes.checked) {
-                    const guestCount = guestList.querySelectorAll('.guest-row').length;
-                    const total = PRICE * guestCount;
-                    totalAmount.textContent = '$' + total.toLocaleString();
-                    totalNote.textContent = `$${PRICE} × ${guestCount} guest${guestCount === 1 ? '' : 's'}`;
-                    successYes.classList.add('active');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    updateTotal();
+                    showView(viewSuccessYes);
                 } else {
-                    successNo.classList.add('active');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    showView(viewSuccessNo);
                 }
             } catch (err) {
                 submitBtn.disabled = false;
