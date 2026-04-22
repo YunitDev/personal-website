@@ -65,7 +65,31 @@
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 1rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .private-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.42rem 0.95rem;
+            background: var(--ink);
+            color: #FFFFFF;
+            border-radius: 999px;
+            font-size: 0.66rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .private-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #F2B97A;
+            box-shadow: 0 0 0 3px rgba(242, 185, 122, 0.18);
         }
 
         h1 {
@@ -658,9 +682,10 @@
         <section class="view active" id="view-landing">
             <header class="hero">
                 <p class="eyebrow">You're Invited</p>
+                <div class="private-badge">Private Event · Invitation Only</div>
                 <h1>The <em>Wedding<br>Pre-Game</em></h1>
-                <p class="subtitle">Phillip &amp; Courtnie · May 22, 2026</p>
-                <p class="description">A chance for our closest friends to spend time together before the wedding. Thirty to forty of us on a private catamaran for four hours — food, drinks, music, and snorkeling included.</p>
+                <p class="subtitle">Phillip &amp; Courtnie</p>
+                <p class="description">We're kicking off the wedding weekend early with a boat party for just our closest friends.</p>
             </header>
 
             <!-- Auto-scrolling tag carousel -->
@@ -691,7 +716,7 @@
                     <div class="detail-body">
                         <div class="detail-label">When</div>
                         <div class="detail-value">Friday, May 22, 2026</div>
-                        <div class="detail-sub">1:00 PM · 4 hours on the water</div>
+                        <div class="detail-sub">12:00 PM · 4 hours on the water</div>
                     </div>
                 </div>
                 <div class="detail-row">
