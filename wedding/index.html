@@ -981,6 +981,7 @@ fileInput.addEventListener('change', async (e) => {
   const total = files.length;
   let done = 0;
   let failed = 0;
+  const perFileProgress = new Array(total).fill(0);
 
   card.classList.add('uploading');
   openBtn.disabled = true;
@@ -991,31 +992,56 @@ fileInput.addEventListener('change', async (e) => {
 
   const safeName = sanitizeForPath(storedName);
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
+  function refreshProgress() {
+    const sum = perFileProgress.reduce((a, b) => a + b, 0);
+    progressFill.style.width = ((sum / total)) + '%';
+  }
+
+  async function uploadOne(file, idx) {
     const ts = Date.now();
     const rand = Math.random().toString(36).slice(2, 8);
     const fileName = ts + '-' + safeName + '-' + rand + '-' + file.name;
-
     try {
-      await upload(fileName, file, {
+      const result = await upload(fileName, file, {
         access: 'public',
         handleUploadUrl: API_BASE + '/api/upload',
         clientPayload: JSON.stringify({ name: storedName || '' }),
         onUploadProgress: (ev) => {
-          const overall = ((done + ev.percentage / 100) / total) * 100;
-          progressFill.style.width = overall + '%';
+          perFileProgress[idx] = ev.percentage;
+          refreshProgress();
         },
       });
+      perFileProgress[idx] = 100;
       done++;
+      // Optimistic: drop the tile onto the wall immediately, no polling delay
+      knownUrls.add(result.url);
+      prependTile({
+        url: result.url,
+        pathname: result.pathname || '',
+        name: storedName || 'guest',
+      }, true);
+      const liveTotal = (parseInt(photosEl.textContent || '0', 10) || 0) + 1;
+      photosEl.textContent = liveTotal;
+      joinCountEl.textContent = liveTotal;
+      bumpEl(photosEl);
     } catch (err) {
       console.error('upload failed', err);
       failed++;
     }
-
+    refreshProgress();
     btnLabel.textContent = 'Uploading ' + (done + failed) + ' of ' + total;
-    progressFill.style.width = (((done + failed) / total) * 100) + '%';
   }
+
+  // Run up to 3 uploads in parallel
+  const queue = files.map((file, idx) => ({ file, idx }));
+  const concurrency = Math.min(3, total);
+  const workers = Array.from({ length: concurrency }, async () => {
+    while (queue.length) {
+      const job = queue.shift();
+      if (job) await uploadOne(job.file, job.idx);
+    }
+  });
+  await Promise.all(workers);
 
   if (failed === 0) {
     cardTitle.textContent = 'Thank you!';
