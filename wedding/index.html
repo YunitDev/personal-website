@@ -1002,14 +1002,13 @@ fileInput.addEventListener('change', async (e) => {
     const rand = Math.random().toString(36).slice(2, 8);
     const fileName = ts + '-' + safeName + '-' + rand + '-' + file.name;
     try {
+      // Note: do NOT pass onUploadProgress — it forces the SDK onto an XHR
+      // path that hangs forever on iOS Safari / WebKit. Per-file completion
+      // updates the bar in steps, which is fine.
       const result = await upload(fileName, file, {
         access: 'public',
         handleUploadUrl: API_BASE + '/api/upload',
         clientPayload: JSON.stringify({ name: storedName || '' }),
-        onUploadProgress: (ev) => {
-          perFileProgress[idx] = ev.percentage;
-          refreshProgress();
-        },
       });
       perFileProgress[idx] = 100;
       done++;
