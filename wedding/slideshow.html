@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow — The Aubreys</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            background: #0A0807;
+            color: #FDFAF6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+        }
+
+        .stage {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: #0A0807;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active { opacity: 1; }
+
+        .slide img, .slide video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            animation: kenburns 10s ease-in-out forwards;
+        }
+
+        @keyframes kenburns {
+            0%   { transform: scale(1);    }
+            100% { transform: scale(1.06); }
+        }
+
+        .qr-corner {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(253, 250, 246, 0.96);
+            color: #1A1614;
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            z-index: 10;
+            max-width: 280px;
+        }
+
+        .qr-corner-label {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.05rem;
+            line-height: 1.2;
+        }
+
+        .qr-corner-sub {
+            font-size: 0.72rem;
+            color: #6B5E57;
+            letter-spacing: 0.04em;
+            margin-top: 0.15rem;
+        }
+
+        .qr-corner-url {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #B44A3A;
+            margin-top: 0.2rem;
+        }
+
+        .empty-message {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            z-index: 5;
+        }
+
+        .empty-message-inner {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1.1;
+            color: #FDFAF6;
+            opacity: 0.8;
+        }
+
+        .empty-message-sub {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.1rem;
+            color: rgba(253, 250, 246, 0.55);
+            margin-top: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .badge {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: rgba(253, 250, 246, 0.14);
+            color: #FDFAF6;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="badge">Live · The Aubreys</div>
+
+    <div class="stage" id="stage"></div>
+
+    <div class="empty-message" id="empty">
+        <div>
+            <div class="empty-message-inner">Scan the QR<br><em style="color:#F2B97A; font-style:italic;">to start the album</em></div>
+            <div class="empty-message-sub">phillipaubrey.com/wedding</div>
+        </div>
+    </div>
+
+    <div class="qr-corner">
+        <div>
+            <div class="qr-corner-label">Add your photos</div>
+            <div class="qr-corner-sub">SCAN OR VISIT</div>
+            <div class="qr-corner-url">phillipaubrey.com/wedding</div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://wedding-api-pied.vercel.app';
+
+        const SLIDE_MS = 8000;     // how long each photo shows
+        const REFRESH_MS = 30000;  // how often to fetch new ones
+
+        const stage = document.getElementById('stage');
+        const empty = document.getElementById('empty');
+
+        let queue = [];      // array of urls to show, shuffled
+        let knownUrls = new Set();
+        let activeEl = null;
+
+        function isVideo(url) {
+            return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(url);
+        }
+
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        async function refresh() {
+            try {
+                const res = await fetch(`${API_BASE}/api/list`);
+                const { blobs } = await res.json();
+                const newUrls = blobs.map(b => b.url).filter(u => !knownUrls.has(u));
+                newUrls.forEach(u => knownUrls.add(u));
+                if (knownUrls.size > 0) empty.style.display = 'none';
+
+                // Add new items to the front of the queue so they show next
+                if (newUrls.length > 0) {
+                    queue = [...shuffle(newUrls), ...queue];
+                }
+
+                // If we exhausted the queue, reshuffle everything we have
+                if (queue.length === 0 && knownUrls.size > 0) {
+                    queue = shuffle([...knownUrls]);
+                }
+            } catch (err) {
+                console.error('Refresh failed', err);
+            }
+        }
+
+        function nextSlide() {
+            if (queue.length === 0 && knownUrls.size > 0) {
+                queue = shuffle([...knownUrls]);
+            }
+            if (queue.length === 0) {
+                setTimeout(nextSlide, 2000);
+                return;
+            }
+
+            const url = queue.shift();
+            const slide = document.createElement('div');
+            slide.className = 'slide';
+
+            let media;
+            let displayMs = SLIDE_MS;
+
+            if (isVideo(url)) {
+                media = document.createElement('video');
+                media.src = url;
+                media.muted = true;
+                media.autoplay = true;
+                media.playsInline = true;
+                media.onloadedmetadata = () => {
+                    displayMs = Math.min(15000, Math.max(4000, media.duration * 1000));
+                };
+            } else {
+                media = document.createElement('img');
+                media.src = url;
+            }
+
+            slide.appendChild(media);
+            stage.appendChild(slide);
+
+            // Wait one frame, then activate so the transition runs
+            requestAnimationFrame(() => {
+                slide.classList.add('active');
+                if (activeEl) {
+                    const old = activeEl;
+                    old.classList.remove('active');
+                    setTimeout(() => old.remove(), 1400);
+                }
+                activeEl = slide;
+            });
+
+            setTimeout(nextSlide, displayMs);
+        }
+
+        // Boot
+        refresh().then(() => {
+            nextSlide();
+        });
+        setInterval(refresh, REFRESH_MS);
+
+        // Try to enter fullscreen on first interaction (browsers require a gesture)
+        document.body.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen?.().catch(() => {});
+            }
+        });
+    </script>
+</body>
+</html>

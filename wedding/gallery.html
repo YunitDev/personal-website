@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Album — The Aubreys</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #FDFAF6;
+            --card: #FFFFFF;
+            --ink: #1A1614;
+            --ink-soft: #6B5E57;
+            --ink-softer: #9A8F88;
+            --accent: #8A6B3D;
+            --line: #EBE4DB;
+            --cta: #B44A3A;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100svh;
+            padding: 2rem 1rem 3rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .heading {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 400;
+            line-height: 1.1;
+        }
+
+        .heading em { font-style: italic; color: var(--cta); }
+
+        .heading-sub {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--line);
+            background: var(--card);
+            color: var(--ink);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--cta);
+            color: #fff;
+            border-color: var(--cta);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 6px;
+        }
+
+        .tile {
+            position: relative;
+            aspect-ratio: 1;
+            background: var(--card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            cursor: pointer;
+        }
+
+        .tile img, .tile video {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .tile:hover img, .tile:hover video { transform: scale(1.04); }
+
+        .tile .video-tag {
+            position: absolute;
+            top: 6px; right: 6px;
+            background: rgba(0,0,0,0.65);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        .tile .by {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            right: 6px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.95);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .tile:hover .by { opacity: 1; }
+
+        .empty {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: var(--ink-soft);
+        }
+
+        .empty-icon { font-size: 2.5rem; margin-bottom: 0.5rem; display: block; }
+
+        .footer-note {
+            text-align: center;
+            color: var(--ink-softer);
+            font-size: 0.82rem;
+            margin-top: 2rem;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1rem;
+        }
+
+        .lightbox.open { display: flex; }
+
+        .lightbox img, .lightbox video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            width: 40px; height: 40px;
+            border-radius: 999px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div>
+                <div class="heading">The <em>album</em></div>
+                <div class="heading-sub" id="count">Loading…</div>
+            </div>
+            <div class="actions">
+                <a href="index.html" class="btn btn-primary">+ Add photos</a>
+                <a href="slideshow.html" class="btn">Slideshow</a>
+            </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="empty" id="empty" style="display:none;">
+            <span class="empty-icon">📷</span>
+            <div>No photos yet — be the first to add some.</div>
+        </div>
+
+        <p class="footer-note">Updates every 30 seconds.</p>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close">×</button>
+        <div id="lightbox-body"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://wedding-api-pied.vercel.app';
+
+        const grid = document.getElementById('grid');
+        const empty = document.getElementById('empty');
+        const count = document.getElementById('count');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxBody = document.getElementById('lightbox-body');
+        const lightboxClose = document.getElementById('lightbox-close');
+
+        let knownUrls = new Set();
+
+        function isVideo(url) {
+            return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(url);
+        }
+
+        function openLightbox(url) {
+            lightboxBody.innerHTML = '';
+            if (isVideo(url)) {
+                const v = document.createElement('video');
+                v.src = url; v.controls = true; v.autoplay = true;
+                lightboxBody.appendChild(v);
+            } else {
+                const img = document.createElement('img');
+                img.src = url;
+                lightboxBody.appendChild(img);
+            }
+            lightbox.classList.add('open');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            lightboxBody.innerHTML = '';
+        }
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+        async function load() {
+            try {
+                const res = await fetch(`${API_BASE}/api/list`);
+                const { blobs } = await res.json();
+                const total = blobs.length;
+                count.textContent = total === 0 ? 'No photos yet' : `${total} ${total === 1 ? 'photo' : 'photos'} so far`;
+                empty.style.display = total === 0 ? 'block' : 'none';
+
+                // Only append new items (avoid full re-render flicker)
+                blobs.reverse().forEach((blob) => {
+                    if (knownUrls.has(blob.url)) return;
+                    knownUrls.add(blob.url);
+
+                    const tile = document.createElement('div');
+                    tile.className = 'tile';
+                    tile.addEventListener('click', () => openLightbox(blob.url));
+
+                    if (isVideo(blob.url)) {
+                        const v = document.createElement('video');
+                        v.src = blob.url;
+                        v.muted = true;
+                        v.preload = 'metadata';
+                        tile.appendChild(v);
+                        const tag = document.createElement('span');
+                        tag.className = 'video-tag';
+                        tag.textContent = 'VIDEO';
+                        tile.appendChild(tag);
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = blob.url;
+                        img.loading = 'lazy';
+                        tile.appendChild(img);
+                    }
+
+                    if (blob.name && blob.name !== 'guest') {
+                        const by = document.createElement('span');
+                        by.className = 'by';
+                        by.textContent = '— ' + blob.name;
+                        tile.appendChild(by);
+                    }
+
+                    // newest at top
+                    grid.insertBefore(tile, grid.firstChild);
+                });
+            } catch (err) {
+                console.error(err);
+                count.textContent = 'Could not load — try again in a moment.';
+            }
+        }
+
+        load();
+        setInterval(load, 30000);
+    </script>
+</body>
+</html>
