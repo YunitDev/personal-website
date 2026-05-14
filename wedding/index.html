@@ -702,8 +702,6 @@ input[type="file"] { display: none; }
 <input type="file" id="file-input" multiple accept="image/*,video/*">
 
 <script type="module">
-import { upload } from 'https://esm.sh/@vercel/blob@1/client';
-
 // ▶ CONFIGURE: set this to your deployed Vercel API URL.
 const API_BASE = 'https://wedding-api-pied.vercel.app';
 
@@ -998,25 +996,39 @@ fileInput.addEventListener('change', async (e) => {
   }
 
   async function uploadOne(file, idx) {
-    const ts = Date.now();
-    const rand = Math.random().toString(36).slice(2, 8);
-    const fileName = ts + '-' + safeName + '-' + rand + '-' + file.name;
+    const safeFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
     try {
-      // Note: do NOT pass onUploadProgress — it forces the SDK onto an XHR
-      // path that hangs forever on iOS Safari / WebKit. Per-file completion
-      // updates the bar in steps, which is fine.
-      const result = await upload(fileName, file, {
-        access: 'public',
-        handleUploadUrl: API_BASE + '/api/upload',
-        clientPayload: JSON.stringify({ name: storedName || '' }),
+      // Step 1: get a presigned PUT URL from our API
+      const tokenRes = await fetch(API_BASE + '/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filename: safeFilename,
+          contentType: file.type || 'application/octet-stream',
+          name: storedName || '',
+        }),
       });
+      if (!tokenRes.ok) {
+        const e = await tokenRes.json().catch(() => ({}));
+        throw new Error(e.error || 'Failed to get upload URL');
+      }
+      const { uploadUrl, publicUrl } = await tokenRes.json();
+
+      // Step 2: PUT file directly to R2 using the presigned URL
+      const putRes = await fetch(uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
+        body: file,
+      });
+      if (!putRes.ok) throw new Error('Upload failed');
+
       perFileProgress[idx] = 100;
       done++;
       // Optimistic: drop the tile onto the wall immediately, no polling delay
-      knownUrls.add(result.url);
+      knownUrls.add(publicUrl);
       prependTile({
-        url: result.url,
-        pathname: result.pathname || '',
+        url: publicUrl,
+        pathname: safeFilename,
         name: storedName || 'guest',
       }, true);
       const liveTotal = (parseInt(photosEl.textContent || '0', 10) || 0) + 1;
