@@ -1014,13 +1014,24 @@ fileInput.addEventListener('change', async (e) => {
       }
       const { uploadUrl, publicUrl } = await tokenRes.json();
 
-      // Step 2: PUT file directly to R2 using the presigned URL
-      const putRes = await fetch(uploadUrl, {
-        method: 'PUT',
-        headers: { 'Content-Type': file.type || 'application/octet-stream' },
-        body: file,
+      // Step 2: PUT directly to R2 via XHR for real progress events
+      await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', uploadUrl);
+        xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            perFileProgress[idx] = (e.loaded / e.total) * 100;
+            refreshProgress();
+          }
+        };
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) resolve(null);
+          else reject(new Error('Upload failed: ' + xhr.status));
+        };
+        xhr.onerror = () => reject(new Error('Network error'));
+        xhr.send(file);
       });
-      if (!putRes.ok) throw new Error('Upload failed');
 
       perFileProgress[idx] = 100;
       done++;
