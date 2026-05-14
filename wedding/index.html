@@ -618,6 +618,44 @@ body {
 .modal-btn-secondary:active { background: var(--line); }
 
 input[type="file"] { display: none; }
+
+/* Photo lightbox */
+.plb {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.93);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  touch-action: none;
+}
+.plb.open { display: flex; }
+.plb img, .plb video {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 6px;
+  pointer-events: none;
+}
+.plb-x, .plb-prev, .plb-next {
+  position: absolute;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: background 0.15s;
+}
+.plb-x { top: 1rem; right: 1rem; width: 40px; height: 40px; font-size: 1.2rem; }
+.plb-prev { left: 1rem; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; }
+.plb-next { right: 1rem; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; }
+.plb-x:active, .plb-prev:active, .plb-next:active { background: rgba(255,255,255,0.3); }
 </style>
 </head>
 <body>
@@ -701,12 +739,69 @@ input[type="file"] { display: none; }
 
 <input type="file" id="file-input" multiple accept="image/*,video/*">
 
+<div class="plb" id="plb">
+  <button class="plb-x" id="plb-x">×</button>
+  <button class="plb-prev" id="plb-prev">‹</button>
+  <div id="plb-body"></div>
+  <button class="plb-next" id="plb-next">›</button>
+</div>
+
 <script type="module">
 // ▶ CONFIGURE: set this to your deployed Vercel API URL.
 const API_BASE = 'https://wedding-api-pied.vercel.app';
 
 const POLL_MS = 5000;
 const NAME_KEY = 'wedding-album-first-name';
+
+// ── Wall lightbox ──────────────────────────────────────────────
+const plb = document.getElementById('plb');
+const plbBody = document.getElementById('plb-body');
+const plbX = document.getElementById('plb-x');
+const plbPrevBtn = document.getElementById('plb-prev');
+const plbNextBtn = document.getElementById('plb-next');
+const wallItems = []; // {url} newest-first, mirrors wall strip
+let plbIdx = 0;
+
+function plbShow(idx) {
+  plbIdx = (idx + wallItems.length) % wallItems.length;
+  const { url } = wallItems[plbIdx];
+  plbBody.innerHTML = '';
+  if (/\.(mp4|mov|webm|m4v)(\?|$)/i.test(url)) {
+    const v = document.createElement('video');
+    v.src = url; v.controls = true; v.autoplay = true;
+    plbBody.appendChild(v);
+  } else {
+    const img = document.createElement('img');
+    img.src = url;
+    plbBody.appendChild(img);
+  }
+  plb.classList.add('open');
+}
+
+function plbClose() {
+  plb.classList.remove('open');
+  plbBody.innerHTML = '';
+}
+
+plbX.addEventListener('click', plbClose);
+plb.addEventListener('click', (e) => { if (e.target === plb) plbClose(); });
+plbPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); plbShow(plbIdx - 1); });
+plbNextBtn.addEventListener('click', (e) => { e.stopPropagation(); plbShow(plbIdx + 1); });
+
+let plbTx = 0;
+plb.addEventListener('touchstart', (e) => { plbTx = e.touches[0].clientX; }, { passive: true });
+plb.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - plbTx;
+  if (Math.abs(dx) > 50) plbShow(dx < 0 ? plbIdx + 1 : plbIdx - 1);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!plb.classList.contains('open')) return;
+  if (e.key === 'Escape') plbClose();
+  if (e.key === 'ArrowLeft') plbShow(plbIdx - 1);
+  if (e.key === 'ArrowRight') plbShow(plbIdx + 1);
+});
+// ──────────────────────────────────────────────────────────────
 const COLOR_PALETTE = [
   '#B44A3A', '#8A6B3D', '#2F7A4E', '#9F7B57',
   '#C77B47', '#6B5E57', '#7B5E92', '#4A6B8A',
@@ -770,6 +865,16 @@ function makeTile(blob, options) {
   const tile = document.createElement('div');
   tile.className = 'wall-tile' + (options.isNew ? ' new flash' : '');
   tile.dataset.url = blob.url;
+
+  // Track for lightbox (newest first, capped at 14 to mirror wall)
+  if (!wallItems.find(i => i.url === blob.url)) {
+    wallItems.unshift({ url: blob.url });
+    if (wallItems.length > 14) wallItems.length = 14;
+  }
+  tile.addEventListener('click', () => {
+    const idx = wallItems.findIndex(i => i.url === blob.url);
+    if (idx >= 0) plbShow(idx);
+  });
 
   if (isVideo(blob.url)) {
     const v = document.createElement('video');
