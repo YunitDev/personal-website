@@ -122,6 +122,30 @@
 
         .tile:hover img, .tile:hover video { transform: scale(1.04); }
 
+        /* Videos show a lightweight placeholder in the grid — the real video
+           only loads when tapped open. Keeps 1.9 GB of clips off the page. */
+        .tile.is-video {
+            background: #14110f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tile.is-video .play {
+            width: 44px; height: 44px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tile.is-video .play::after {
+            content: '';
+            border-style: solid;
+            border-width: 8px 0 8px 13px;
+            border-color: transparent transparent transparent #14110f;
+            margin-left: 3px;
+        }
+
         .tile .video-tag {
             position: absolute;
             top: 6px; right: 6px;
@@ -271,6 +295,12 @@
             return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(url);
         }
 
+        // Grid tiles load a small server-resized thumbnail, not the full photo.
+        function thumbUrl(blob) {
+            const key = blob.pathname || blob.url.split('/').pop();
+            return `${API_BASE}/api/thumb?key=${encodeURIComponent(key)}&w=500`;
+        }
+
         function showLightbox(idx) {
             lbIdx = (idx + galleryItems.length) % galleryItems.length;
             const url = galleryItems[lbIdx].url;
@@ -333,19 +363,21 @@
                     });
 
                     if (isVideo(blob.url)) {
-                        const v = document.createElement('video');
-                        v.src = blob.url;
-                        v.muted = true;
-                        v.preload = 'metadata';
-                        tile.appendChild(v);
+                        // No video element here — just a play placeholder. The
+                        // clip loads only when opened in the lightbox.
+                        tile.classList.add('is-video');
+                        const play = document.createElement('span');
+                        play.className = 'play';
+                        tile.appendChild(play);
                         const tag = document.createElement('span');
                         tag.className = 'video-tag';
                         tag.textContent = 'VIDEO';
                         tile.appendChild(tag);
                     } else {
                         const img = document.createElement('img');
-                        img.src = blob.url;
+                        img.src = thumbUrl(blob);
                         img.loading = 'lazy';
+                        img.decoding = 'async';
                         tile.appendChild(img);
                     }
 
